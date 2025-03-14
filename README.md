@@ -1,10 +1,14 @@
 # Sans UI Library
 
-A cross-platform native UI library which supports iOS, Android, Windows, macOS, and Linux using WebViewJS and Apple's WKWebView API. Built with Svelte 4 and web components.
+A cross-platform native UI library which supports iOS, Android, Windows, macOS, and Linux using WebViewJS, Apple's WKWebView API, and KDE's Qt WebEngine. Built with Svelte 4 and web components.
 
 ### Frontends
 [![Svelte](https://img.shields.io/badge/Svelte-f1413d.svg?logo=svelte&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/svelte)
-[![web Components](https://img.shields.io/badge/Web%20Components-29ABE2?logo=webcomponentsdotorg&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/web-components)
+[![Web Components](https://img.shields.io/badge/Web%20Components-29ABE2?logo=webcomponentsdotorg&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/web-components)
+
+### Desktops
+[![Qt](https://img.shields.io/badge/Qt-41CD52?logo=qt&logoColor=fff&style=for-the-badge)](https://www.qt.io/)
+[![GTK](https://img.shields.io/badge/GTK-4A86CF?logo=gtk&logoColor=fff&style=for-the-badge)](https://www.gtk.org/)
 
 ### Runtimes
 [![NodeJS](https://img.shields.io/badge/Node-6DA55F?logo=node.js&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/runtime-support)
@@ -17,6 +21,8 @@ A cross-platform native UI library which supports iOS, Android, Windows, macOS, 
 [![Windows](https://img.shields.io/badge/Windows-0078D6?logo=windows&logoColor=fff&style=for-the-badge)](https://github.com/profullstack/sans-ui)
 [![macOS](https://img.shields.io/badge/macOS-000000?logo=macos&logoColor=fff&style=for-the-badge)](https://github.com/profullstack/sans-ui)
 [![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=000&style=for-the-badge)](https://github.com/profullstack/sans-ui)
+[![KDE](https://img.shields.io/badge/KDE-1D99F3?logo=kde&logoColor=fff&style=for-the-badge)](https://github.com/profullstack/sans-ui)
+[![GNOME](https://img.shields.io/badge/GNOME-4A86CF?logo=gnome&logoColor=fff&style=for-the-badge)](https://github.com/profullstack/sans-ui)
 
 ## About
 
@@ -24,6 +30,7 @@ Sans UI is designed to create consistent user interfaces across multiple platfor
 
 - **WebViewJS**: For cross-platform compatibility and communication between web and native code
 - **Apple's WKWebView API**: For high-performance rendering on iOS and macOS
+- **Qt WebEngine**: For native KDE integration on Linux
 - **Svelte 4**: For efficient, reactive UI components
 - **Web Components**: For framework-agnostic HTML5 elements that work everywhere
 
@@ -40,6 +47,9 @@ Implements WebView with JavaScript interfaces to communicate between the web UI 
 ### Windows, Linux, macOS (Desktop)
 Uses WebViewJS to create desktop applications with native capabilities while maintaining the same codebase.
 
+### KDE (Linux)
+Leverages Qt WebEngine for native KDE integration, providing access to KDE-specific features like file dialogs, notifications, and theming while maintaining the same web-based UI.
+
 ### Web Browsers
 All components work in modern web browsers through both Svelte components and standard Web Components.
 
@@ -50,6 +60,9 @@ Sans UI follows a layered architecture:
 1. **UI Layer**: Svelte components that define the visual interface
 2. **Bridge Layer**: WebViewJS adapters that handle communication between web and native code
 3. **Native Layer**: Platform-specific implementations that provide access to native features
+   - iOS/macOS: WKWebView bridge
+   - Android: WebView with JavaScript interfaces
+   - KDE: Qt WebEngine bridge
 
 This separation allows for consistent UI across platforms while still leveraging platform-specific capabilities when needed.
 
