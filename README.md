@@ -96,6 +96,63 @@ bun add @profullstack/sans-ui
 pnpm dev
 ```
 
+## Running examples locally
+
+The repository contains several examples that demonstrate different features of Sans UI:
+
+### Component Abstraction Example
+
+This example demonstrates the abstraction layer for web components:
+
+```bash
+# Start a simple HTTP server in the Sans UI root directory
+python -m http.server 8000
+
+# Access the example at:
+# http://localhost:8000/examples/component-abstraction/index.html
+```
+
+### Camera Subscribe Example
+
+This example demonstrates camera access and a subscription form:
+
+```bash
+# Start a simple HTTP server in the Sans UI root directory
+python -m http.server 8000
+
+# Access the example at:
+# http://localhost:8000/examples/camera-subscribe-example/
+```
+
+### Backend Example
+
+This example runs a simple backend API for handling subscription form submissions:
+
+```bash
+# Navigate to the backend example directory
+cd examples/backend
+
+# Install dependencies
+npm install
+
+# Start the server
+npm start
+```
+
+### KDE Example
+
+To run the KDE native integration example:
+
+```bash
+# Build the KDE bridge application
+cd native/kde
+qmake
+make
+
+# Run the application with an example URL
+./sans-ui-kde --url=http://localhost:8000/examples/component-abstraction/
+```
+
 ## Building
 
 ```sh
