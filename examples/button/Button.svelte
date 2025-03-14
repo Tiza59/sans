@@ -73,11 +73,11 @@
   function handleClick() {
     clickCount++;
   }
-&lt;/script&gt;
+</script>
 
-&lt;Button type="primary" onClick={handleClick}&gt;
+<Button type="primary" onClick={handleClick}>
   Click Me ({clickCount})
-&lt;/Button&gt;</code></pre>
+</Button></code></pre>
   </section>
 </div>
 

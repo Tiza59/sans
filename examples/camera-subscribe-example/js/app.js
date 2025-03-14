@@ -170,7 +170,7 @@ class SansUIApp {
     // Initialize sync service
     if (typeof SyncService !== 'undefined') {
       window.syncService = new SyncService();
-      window.syncService.startBackgroundSync();
+      window.syncService.start(60000); // Start with a 1-minute interval
     }
     
     // Example of using the ComponentFactory to create a component dynamically
@@ -178,11 +178,17 @@ class SansUIApp {
   }
   
   createDynamicComponents() {
-    // Example of creating a dynamic button using the ComponentFactory
+    // Example of creating a dynamic button without using ComponentFactory
     const container = document.querySelector('.camera-controls');
     if (container) {
-      const resetButton = ComponentFactory.createButton('reset-camera', 'Reset', 'secondary');
-      resetButton.setProperty('disabled', true);
+      // Create the button element directly
+      const resetButton = document.createElement('sans-button');
+      resetButton.id = 'reset-camera';
+      resetButton.setAttribute('type', 'secondary');
+      resetButton.setAttribute('disabled', '');
+      resetButton.textContent = 'Reset';
+      
+      // Add event listener directly to the button
       resetButton.addEventListener('click', () => {
         console.log('Reset camera clicked');
         if (window.cameraManager) {
@@ -191,7 +197,9 @@ class SansUIApp {
           window.cameraManager.startCamera();
         }
       });
-      container.appendChild(resetButton.getElement());
+      
+      // Append the button to the container
+      container.appendChild(resetButton);
     }
   }
   

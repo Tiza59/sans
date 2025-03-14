@@ -7,12 +7,12 @@
 
 class SubscriptionManager {
   constructor() {
-    // DOM elements - using Sans UI components
+    // DOM elements - using Sans UI components directly
     this.subscribeForm = document.getElementById('subscribe-form');
-    this.nameInput = document.querySelector('sans-input#name').getElement();
-    this.emailInput = document.querySelector('sans-input#email').getElement();
-    this.consentCheckbox = document.querySelector('sans-input#consent').getElement();
-    this.subscribeButton = document.querySelector('sans-button#subscribe-button').getElement();
+    this.nameInput = document.querySelector('sans-input#name');
+    this.emailInput = document.querySelector('sans-input#email');
+    this.consentCheckbox = document.querySelector('sans-input#consent');
+    this.subscribeButton = document.querySelector('sans-button#subscribe-button');
     this.successMessage = document.getElementById('subscription-success');
     
     // API configuration
@@ -122,15 +122,13 @@ class SubscriptionManager {
   }
   
   setFormLoading(isLoading) {
-    // Update the Sans UI button component
-    const sansButton = document.querySelector('sans-button#subscribe-button');
-    
+    // Update the Sans UI button component directly
     if (isLoading) {
-      sansButton.setAttribute('disabled', '');
-      sansButton.textContent = 'Subscribing...';
+      this.subscribeButton.setAttribute('disabled', '');
+      this.subscribeButton.textContent = 'Subscribing...';
     } else {
-      sansButton.removeAttribute('disabled');
-      sansButton.textContent = 'Subscribe';
+      this.subscribeButton.removeAttribute('disabled');
+      this.subscribeButton.textContent = 'Subscribe';
     }
   }
   

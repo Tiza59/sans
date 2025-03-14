@@ -12,10 +12,10 @@ class CameraManager {
     this.canvasElement = document.getElementById('camera-canvas');
     this.photosGallery = document.getElementById('photos-gallery');
     
-    // Get Sans UI button elements
-    this.startButton = document.querySelector('sans-button#start-camera').getElement();
-    this.takePhotoButton = document.querySelector('sans-button#take-photo').getElement();
-    this.switchCameraButton = document.querySelector('sans-button#switch-camera').getElement();
+    // Get Sans UI button elements directly
+    this.startButton = document.querySelector('sans-button#start-camera');
+    this.takePhotoButton = document.querySelector('sans-button#take-photo');
+    this.switchCameraButton = document.querySelector('sans-button#switch-camera');
     
     // Camera state
     this.stream = null;
