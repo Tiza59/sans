@@ -139,7 +139,7 @@ const app = new Elysia()
   })
   
   // Get subscribers endpoint (protected by API key)
-  .get('/subscribers', async ({ headers }) => {
+  .get('/subscribers', async ({ headers, query }) => {
     // Simple API key check
     if (headers.authorization !== `Bearer ${process.env.API_KEY}`) {
       return new Response('Unauthorized', { status: 401 });
@@ -150,20 +150,115 @@ const app = new Elysia()
     }
     
     try {
-      // Fetch subscribers from Supabase, ordered by created_at desc
-      const { data: subscribers, error } = await supabase
+      // Build query with filters
+      let supabaseQuery = supabase
         .from(process.env.SUPABASE_TABLE || 'subscribers')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .select('*');
+      
+      // Apply filters if provided
+      if (query.search) {
+        supabaseQuery = supabaseQuery.or(`name.ilike.%${query.search}%,email.ilike.%${query.search}%`);
+      }
+      
+      if (query.consent === 'true' || query.consent === 'false') {
+        supabaseQuery = supabaseQuery.eq('consent', query.consent === 'true');
+      }
+      
+      // Apply pagination
+      const page = parseInt(query.page) || 1;
+      const pageSize = parseInt(query.pageSize) || 20;
+      const start = (page - 1) * pageSize;
+      
+      // Get total count for pagination
+      const { count: totalCount, error: countError } = await supabase
+        .from(process.env.SUPABASE_TABLE || 'subscribers')
+        .select('*', { count: 'exact', head: true });
+        
+      if (countError) {
+        throw countError;
+      }
+      
+      // Execute query with pagination and ordering
+      const { data: subscribers, error } = await supabaseQuery
+        .order('created_at', { ascending: false })
+        .range(start, start + pageSize - 1);
       
       if (error) {
         throw error;
       }
       
-      return { count: subscribers.length, subscribers };
+      return { 
+        success: true,
+        count: subscribers.length, 
+        totalCount,
+        page,
+        pageSize,
+        totalPages: Math.ceil(totalCount / pageSize),
+        subscribers 
+      };
     } catch (error) {
       console.error('Error fetching subscribers:', error);
       return { success: false, message: 'Error fetching subscribers' };
+    }
+  })
+  
+  // Get subscriber by ID (protected by API key)
+  .get('/subscribers/:id', async ({ headers, params }) => {
+    // Simple API key check
+    if (headers.authorization !== `Bearer ${process.env.API_KEY}`) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+    
+    if (!supabase) {
+      return { message: 'Supabase not available' };
+    }
+    
+    try {
+      const { data: subscriber, error } = await supabase
+        .from(process.env.SUPABASE_TABLE || 'subscribers')
+        .select('*')
+        .eq('id', params.id)
+        .single();
+      
+      if (error) {
+        if (error.code === 'PGRST116') {
+          return new Response('Subscriber not found', { status: 404 });
+        }
+        throw error;
+      }
+      
+      return { success: true, subscriber };
+    } catch (error) {
+      console.error(`Error fetching subscriber ${params.id}:`, error);
+      return { success: false, message: 'Error fetching subscriber' };
+    }
+  })
+  
+  // Delete subscriber (protected by API key)
+  .delete('/subscribers/:id', async ({ headers, params }) => {
+    // Simple API key check
+    if (headers.authorization !== `Bearer ${process.env.API_KEY}`) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+    
+    if (!supabase) {
+      return { message: 'Supabase not available' };
+    }
+    
+    try {
+      const { error } = await supabase
+        .from(process.env.SUPABASE_TABLE || 'subscribers')
+        .delete()
+        .eq('id', params.id);
+      
+      if (error) {
+        throw error;
+      }
+      
+      return { success: true, message: 'Subscriber deleted successfully' };
+    } catch (error) {
+      console.error(`Error deleting subscriber ${params.id}:`, error);
+      return { success: false, message: 'Error deleting subscriber' };
     }
   })
   

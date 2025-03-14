@@ -104,6 +104,24 @@ pnpm dev  # This uses pnpx vite internally
 
 The repository contains several examples that demonstrate different features of Sans UI:
 
+### Backend Example with Supabase Integration
+
+The backend example demonstrates how to use Supabase with Sans UI for database operations:
+
+```bash
+cd examples/backend
+pnpm install
+# Configure your .env file with Supabase credentials
+pnpm dev
+```
+
+This example includes:
+- Subscriber management with Supabase database
+- RESTful API with search, pagination, and filtering
+- Email integration with Mailgun
+
+See the [backend example README](./examples/backend/README.md) for more details.
+
 ### Component Abstraction Example
 
 This example demonstrates the abstraction layer for web components:

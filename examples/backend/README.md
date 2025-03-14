@@ -117,12 +117,94 @@ Accepts subscription form data and sends a welcome email.
 GET /subscribers
 ```
 
-Returns a list of all subscribers. Requires API key authentication.
+Returns a paginated list of subscribers with filtering options. Requires API key authentication.
 
 **Headers:**
 
 ```
 Authorization: Bearer your_api_key_here
+```
+
+**Query Parameters:**
+
+- `search` - Search term to filter subscribers by name or email
+- `consent` - Filter by consent status (`true` or `false`)
+- `page` - Page number for pagination (default: 1)
+- `pageSize` - Number of items per page (default: 20)
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "count": 5,
+  "totalCount": 25,
+  "page": 1,
+  "pageSize": 20,
+  "totalPages": 2,
+  "subscribers": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "consent": true,
+      "created_at": "2023-01-01T00:00:00.000Z"
+    },
+    // ...more subscribers
+  ]
+}
+```
+
+### Get Subscriber by ID (Protected)
+
+```
+GET /subscribers/:id
+```
+
+Returns a single subscriber by ID. Requires API key authentication.
+
+**Headers:**
+
+```
+Authorization: Bearer your_api_key_here
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "subscriber": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com",
+    "consent": true,
+    "created_at": "2023-01-01T00:00:00.000Z"
+  }
+}
+```
+
+### Delete Subscriber (Protected)
+
+```
+DELETE /subscribers/:id
+```
+
+Deletes a subscriber by ID. Requires API key authentication.
+
+**Headers:**
+
+```
+Authorization: Bearer your_api_key_here
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Subscriber deleted successfully"
+}
 ```
 
 ## Integration with Sans UI Frontend
