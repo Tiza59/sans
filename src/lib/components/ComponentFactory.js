@@ -59,6 +59,47 @@ class ComponentFactory {
     }
     return adapter;
   }
+  
+  /**
+   * Create a label component
+   * @param {Object} props - Initial properties for the label
+   * @returns {ComponentAdapter} The component adapter instance
+   */
+  static createLabel(props = {}) {
+    const adapter = new ComponentAdapter('label');
+    if (props) {
+      adapter.setProperties(props);
+    }
+    return adapter;
+  }
+  
+  /**
+   * Create a textarea component
+   * @param {Object} props - Initial properties for the textarea
+   * @returns {ComponentAdapter} The component adapter instance
+   */
+  static createTextarea(props = {}) {
+    const adapter = new ComponentAdapter('textarea');
+    if (props) {
+      adapter.setProperties(props);
+    }
+    return adapter;
+  }
+  
+  /**
+   * Create an option component
+   * @param {Object} props - Initial properties for the option
+   * @returns {ComponentAdapter} The component adapter instance
+   */
+  static createOption(props = {}) {
+    const adapter = new ComponentAdapter('option');
+    if (props) {
+      adapter.setProperties(props);
+    }
+    return adapter;
+  }
+  
+  // Form component is already defined above
 
   /**
    * Create a card component

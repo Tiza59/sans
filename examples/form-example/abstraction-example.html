@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans UI - Form Abstraction Example</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      color: #333;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    
+    .form-container {
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-actions {
+      margin-top: 25px;
+      display: flex;
+      gap: 10px;
+    }
+    
+    .result {
+      margin-top: 30px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #f5f5f5;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sans UI - Form Components with Abstraction Layer</h1>
+  
+  <div class="form-container" id="formContainer">
+    <!-- Form will be created dynamically using the ComponentFactory -->
+  </div>
+  
+  <div id="formResult" class="result">
+    <h3>Form Submission Result:</h3>
+    <pre id="resultContent"></pre>
+  </div>
+  
+  <script type="module">
+    import { registerAllComponents } from '../../src/components/html5/index.js';
+    import ComponentFactory from '../../src/lib/components/ComponentFactory.js';
+    
+    // Register all components
+    registerAllComponents();
+    
+    // Create form elements using the abstraction layer
+    document.addEventListener('DOMContentLoaded', () => {
+      const formContainer = document.getElementById('formContainer');
+      const resultDiv = document.getElementById('formResult');
+      const resultContent = document.getElementById('resultContent');
+      
+      // Create the form
+      const form = ComponentFactory.createForm({
+        id: 'userForm',
+        method: 'post',
+        action: '#'
+      });
+      
+      // Create form groups and elements
+      const createFormGroup = () => {
+        const div = ComponentFactory.createDiv();
+        div.setProperty('class', 'form-group');
+        return div;
+      };
+      
+      // Name field
+      const nameGroup = createFormGroup();
+      const nameLabel = ComponentFactory.createLabel({ for: 'name', textContent: 'Full Name' });
+      const nameInput = ComponentFactory.createInput({
+        id: 'name',
+        name: 'name',
+        type: 'text',
+        placeholder: 'Enter your full name',
+        required: true
+      });
+      
+      nameGroup.getElement().appendChild(nameLabel.getElement());
+      nameGroup.getElement().appendChild(nameInput.getElement());
+      form.getElement().appendChild(nameGroup.getElement());
+      
+      // Email field
+      const emailGroup = createFormGroup();
+      const emailLabel = ComponentFactory.createLabel({ for: 'email', textContent: 'Email Address' });
+      const emailInput = ComponentFactory.createInput({
+        id: 'email',
+        name: 'email',
+        type: 'email',
+        placeholder: 'Enter your email address',
+        required: true
+      });
+      
+      emailGroup.getElement().appendChild(emailLabel.getElement());
+      emailGroup.getElement().appendChild(emailInput.getElement());
+      form.getElement().appendChild(emailGroup.getElement());
+      
+      // Age field
+      const ageGroup = createFormGroup();
+      const ageLabel = ComponentFactory.createLabel({ for: 'age', textContent: 'Age' });
+      const ageInput = ComponentFactory.createInput({
+        id: 'age',
+        name: 'age',
+        type: 'number',
+        min: 18,
+        max: 120,
+        placeholder: 'Enter your age'
+      });
+      
+      ageGroup.getElement().appendChild(ageLabel.getElement());
+      ageGroup.getElement().appendChild(ageInput.getElement());
+      form.getElement().appendChild(ageGroup.getElement());
+      
+      // Country field
+      const countryGroup = createFormGroup();
+      const countryLabel = ComponentFactory.createLabel({ for: 'country', textContent: 'Country' });
+      const countrySelect = ComponentFactory.createSelect({
+        id: 'country',
+        name: 'country'
+      });
+      
+      // Add options to select
+      const countryOptions = [
+        { value: '', text: 'Select your country' },
+        { value: 'us', text: 'United States' },
+        { value: 'ca', text: 'Canada' },
+        { value: 'uk', text: 'United Kingdom' },
+        { value: 'au', text: 'Australia' },
+        { value: 'other', text: 'Other' }
+      ];
+      
+      countryOptions.forEach(optionData => {
+        const option = ComponentFactory.createOption({
+          value: optionData.value,
+          textContent: optionData.text
+        });
+        countrySelect.getElement().appendChild(option.getElement());
+      });
+      
+      countryGroup.getElement().appendChild(countryLabel.getElement());
+      countryGroup.getElement().appendChild(countrySelect.getElement());
+      form.getElement().appendChild(countryGroup.getElement());
+      
+      // Message field
+      const messageGroup = createFormGroup();
+      const messageLabel = ComponentFactory.createLabel({ for: 'message', textContent: 'Message' });
+      const messageTextarea = ComponentFactory.createTextarea({
+        id: 'message',
+        name: 'message',
+        rows: 5,
+        placeholder: 'Enter your message'
+      });
+      
+      messageGroup.getElement().appendChild(messageLabel.getElement());
+      messageGroup.getElement().appendChild(messageTextarea.getElement());
+      form.getElement().appendChild(messageGroup.getElement());
+      
+      // Subscribe checkbox
+      const subscribeGroup = createFormGroup();
+      const subscribeLabel = ComponentFactory.createLabel();
+      const subscribeInput = ComponentFactory.createInput({
+        id: 'subscribe',
+        name: 'subscribe',
+        type: 'checkbox'
+      });
+      
+      subscribeLabel.getElement().appendChild(subscribeInput.getElement());
+      subscribeLabel.getElement().appendChild(document.createTextNode(' Subscribe to newsletter'));
+      subscribeGroup.getElement().appendChild(subscribeLabel.getElement());
+      form.getElement().appendChild(subscribeGroup.getElement());
+      
+      // Form actions
+      const actionsGroup = ComponentFactory.createDiv({ class: 'form-actions' });
+      const submitButton = ComponentFactory.createButton({
+        type: 'submit',
+        id: 'submitBtn',
+        textContent: 'Submit'
+      });
+      
+      const resetButton = ComponentFactory.createButton({
+        type: 'reset',
+        id: 'resetBtn',
+        textContent: 'Reset'
+      });
+      
+      actionsGroup.getElement().appendChild(submitButton.getElement());
+      actionsGroup.getElement().appendChild(resetButton.getElement());
+      form.getElement().appendChild(actionsGroup.getElement());
+      
+      // Add the form to the container
+      formContainer.appendChild(form.getElement());
+      
+      // Handle form submission
+      form.addEventListener('form-submit', (e) => {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = new FormData(e.detail.source.shadowRoot.querySelector('form'));
+        const formDataObj = {};
+        
+        formData.forEach((value, key) => {
+          formDataObj[key] = value;
+        });
+        
+        // Display the result
+        resultContent.textContent = JSON.stringify(formDataObj, null, 2);
+        resultDiv.style.display = 'block';
+      });
+    });
+  </script>
+</body>
+</html>

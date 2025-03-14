@@ -31,11 +31,20 @@ export { default as NavComponent } from './NavComponent.js';
 export { default as AsideComponent } from './AsideComponent.js';
 export { default as MainComponent } from './MainComponent.js';
 
+// Form-related Components
+export { default as FormComponent } from './FormComponent.js';
+export { default as LabelComponent } from './LabelComponent.js';
+export { default as InputComponent } from './InputComponent.js';
+export { default as SelectComponent } from './SelectComponent.js';
+export { default as OptionComponent } from './OptionComponent.js';
+export { default as TextareaComponent } from './TextareaComponent.js';
+
 // Register all Web Components if in browser environment
 export function registerAllComponents() {
   if (typeof window !== 'undefined' && window.customElements) {
     // Import and register all components
     const components = [
+      // Basic HTML components
       { name: 'sans-div', component: DivComponent },
       { name: 'sans-p', component: PComponent },
       { name: 'sans-h1', component: H1Component },
@@ -47,7 +56,15 @@ export function registerAllComponents() {
       { name: 'sans-footer', component: FooterComponent },
       { name: 'sans-nav', component: NavComponent },
       { name: 'sans-aside', component: AsideComponent },
-      { name: 'sans-main', component: MainComponent }
+      { name: 'sans-main', component: MainComponent },
+      
+      // Form-related components
+      { name: 'sans-form', component: FormComponent },
+      { name: 'sans-label', component: LabelComponent },
+      { name: 'sans-input', component: InputComponent },
+      { name: 'sans-select', component: SelectComponent },
+      { name: 'sans-option', component: OptionComponent },
+      { name: 'sans-textarea', component: TextareaComponent }
     ];
     
     // Register each component if it hasn't been registered already
