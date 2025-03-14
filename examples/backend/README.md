@@ -177,3 +177,8 @@ async handleSubmit(event) {
 ## License
 
 Same as the main Sans UI project.
+
+---
+
+*Built happily using "Windsurf on Linux"*  
+*Sponsored by [Profullstack, Inc.](https://profullstack.com)*

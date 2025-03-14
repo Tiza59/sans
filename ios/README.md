@@ -82,3 +82,8 @@ window.nativeApp.takePicture = function() {
 ## Testing
 
 When testing in a browser, the WebViewAdapter will fall back to using an iframe to simulate the WKWebView. This allows you to develop and test your application without needing to build and run the iOS app for every change.
+
+---
+
+*Built happily using "Windsurf on Linux"*  
+*Sponsored by [Profullstack, Inc.](https://profullstack.com)*

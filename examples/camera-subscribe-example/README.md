@@ -95,3 +95,8 @@ This example shows how to:
 ## License
 
 Same as the main Sans UI project.
+
+---
+
+*Built happily using "Windsurf on Linux"*  
+*Sponsored by [Profullstack, Inc.](https://profullstack.com)*

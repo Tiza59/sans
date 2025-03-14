@@ -98,3 +98,8 @@ The KDE bridge is automatically detected and used when your Sans UI application 
 ## License
 
 Same as the main Sans UI project.
+
+---
+
+*Built happily using "Windsurf on Linux"*  
+*Sponsored by [Profullstack, Inc.](https://profullstack.com)*

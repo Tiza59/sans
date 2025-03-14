@@ -184,3 +184,8 @@ pnpm preview
 4. **Deploy** to your target platforms
 
 This workflow allows for rapid development in the web environment while still supporting native platform features.
+
+---
+
+*Built happily using "Windsurf on Linux"*  
+*Sponsored by [Profullstack, Inc.](https://profullstack.com)*
