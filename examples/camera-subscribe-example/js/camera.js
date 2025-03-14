@@ -2,6 +2,7 @@
  * Camera functionality for Sans UI example app
  * Demonstrates how to access and use the device camera
  * with native permissions handling through Sans UI
+ * Updated to use Sans UI components and the component abstraction layer
  */
 
 class CameraManager {
@@ -10,9 +11,11 @@ class CameraManager {
     this.videoElement = document.getElementById('camera-feed');
     this.canvasElement = document.getElementById('camera-canvas');
     this.photosGallery = document.getElementById('photos-gallery');
-    this.startButton = document.getElementById('start-camera');
-    this.takePhotoButton = document.getElementById('take-photo');
-    this.switchCameraButton = document.getElementById('switch-camera');
+    
+    // Get Sans UI button elements
+    this.startButton = document.querySelector('sans-button#start-camera').getElement();
+    this.takePhotoButton = document.querySelector('sans-button#take-photo').getElement();
+    this.switchCameraButton = document.querySelector('sans-button#switch-camera').getElement();
     
     // Camera state
     this.stream = null;
@@ -30,6 +33,7 @@ class CameraManager {
   }
   
   initEventListeners() {
+    // Add event listeners to Sans UI button elements
     this.startButton.addEventListener('click', this.startCamera);
     this.takePhotoButton.addEventListener('click', this.takePhoto);
     this.switchCameraButton.addEventListener('click', this.switchCamera);

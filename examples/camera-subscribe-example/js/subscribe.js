@@ -2,15 +2,17 @@
  * Subscription form functionality for Sans UI example app
  * Demonstrates how to handle form submissions and integrate with native features
  * Connects to the Elysia backend API for processing subscriptions and sending emails
+ * Updated to use Sans UI components and the component abstraction layer
  */
 
 class SubscriptionManager {
   constructor() {
-    // DOM elements
+    // DOM elements - using Sans UI components
     this.subscribeForm = document.getElementById('subscribe-form');
-    this.nameInput = document.getElementById('name');
-    this.emailInput = document.getElementById('email');
-    this.consentCheckbox = document.getElementById('consent');
+    this.nameInput = document.querySelector('sans-input#name').getElement();
+    this.emailInput = document.querySelector('sans-input#email').getElement();
+    this.consentCheckbox = document.querySelector('sans-input#consent').getElement();
+    this.subscribeButton = document.querySelector('sans-button#subscribe-button').getElement();
     this.successMessage = document.getElementById('subscription-success');
     
     // API configuration
@@ -24,7 +26,8 @@ class SubscriptionManager {
   }
   
   initEventListeners() {
-    this.subscribeForm.addEventListener('submit', this.handleSubmit);
+    // Using click event on button instead of form submit since we're using sans-form
+    this.subscribeButton.addEventListener('click', this.handleSubmit);
     
     // Add input validation
     this.emailInput.addEventListener('blur', () => this.validateEmail());
@@ -52,6 +55,7 @@ class SubscriptionManager {
     // Disable form during submission
     this.setFormLoading(true);
     
+    // Get values from Sans UI input components
     const formData = {
       name: this.nameInput.value.trim(),
       email: this.emailInput.value.trim(),
@@ -118,14 +122,15 @@ class SubscriptionManager {
   }
   
   setFormLoading(isLoading) {
-    const submitButton = this.subscribeForm.querySelector('button[type="submit"]');
+    // Update the Sans UI button component
+    const sansButton = document.querySelector('sans-button#subscribe-button');
     
     if (isLoading) {
-      submitButton.disabled = true;
-      submitButton.textContent = 'Subscribing...';
+      sansButton.setAttribute('disabled', '');
+      sansButton.textContent = 'Subscribing...';
     } else {
-      submitButton.disabled = false;
-      submitButton.textContent = 'Subscribe';
+      sansButton.removeAttribute('disabled');
+      sansButton.textContent = 'Subscribe';
     }
   }
   

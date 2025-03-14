@@ -1,12 +1,138 @@
 /**
  * Main application file for Sans UI example app
  * Initializes Sans UI and handles platform detection
+ * Updated to use the Sans UI component abstraction layer
  */
+
+// Component Adapter for Sans UI components
+class ComponentAdapter {
+  constructor(element) {
+    this.element = element;
+  }
+  
+  // Get the underlying DOM element
+  getElement() {
+    return this.element;
+  }
+  
+  // Set a property on the component
+  setProperty(name, value) {
+    if (this.element) {
+      if (typeof value === 'boolean') {
+        if (value) {
+          this.element.setAttribute(name, '');
+        } else {
+          this.element.removeAttribute(name);
+        }
+      } else {
+        this.element.setAttribute(name, value);
+      }
+    }
+    return this;
+  }
+  
+  // Get a property from the component
+  getProperty(name) {
+    if (this.element) {
+      return this.element.getAttribute(name);
+    }
+    return null;
+  }
+  
+  // Add an event listener to the component
+  addEventListener(eventName, callback) {
+    if (this.element) {
+      this.element.addEventListener(eventName, callback);
+    }
+    return this;
+  }
+  
+  // Remove an event listener from the component
+  removeEventListener(eventName, callback) {
+    if (this.element) {
+      this.element.removeEventListener(eventName, callback);
+    }
+    return this;
+  }
+  
+  // Set the text content of the component
+  setText(text) {
+    if (this.element) {
+      this.element.textContent = text;
+    }
+    return this;
+  }
+  
+  // Add a CSS class to the component
+  addClass(className) {
+    if (this.element) {
+      this.element.classList.add(className);
+    }
+    return this;
+  }
+  
+  // Remove a CSS class from the component
+  removeClass(className) {
+    if (this.element) {
+      this.element.classList.remove(className);
+    }
+    return this;
+  }
+}
+
+// Factory for creating Sans UI components
+class ComponentFactory {
+  // Create a button component
+  static createButton(id, text, type = 'primary') {
+    const button = document.createElement('sans-button');
+    button.id = id;
+    button.setAttribute('type', type);
+    button.textContent = text;
+    return new ComponentAdapter(button);
+  }
+  
+  // Create an input component
+  static createInput(id, type = 'text', placeholder = '', required = false) {
+    const input = document.createElement('sans-input');
+    input.id = id;
+    input.setAttribute('type', type);
+    input.setAttribute('placeholder', placeholder);
+    if (required) {
+      input.setAttribute('required', '');
+    }
+    return new ComponentAdapter(input);
+  }
+  
+  // Create a div component
+  static createDiv(id = '', className = '') {
+    const div = document.createElement('sans-div');
+    if (id) div.id = id;
+    if (className) div.setAttribute('className', className);
+    return new ComponentAdapter(div);
+  }
+  
+  // Get an existing component by ID
+  static getComponentById(id) {
+    const element = document.getElementById(id);
+    return element ? new ComponentAdapter(element) : null;
+  }
+  
+  // Get an existing component by selector
+  static getComponentBySelector(selector) {
+    const element = document.querySelector(selector);
+    return element ? new ComponentAdapter(element) : null;
+  }
+}
 
 class SansUIApp {
   constructor() {
     this.platform = this.detectPlatform();
     this.initSansUI();
+    
+    // Initialize camera and subscription managers after DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      this.initializeManagers();
+    });
   }
   
   detectPlatform() {
@@ -25,6 +151,47 @@ class SansUIApp {
       return 'gtk';
     } else {
       return 'web';
+    }
+  }
+  
+  initializeManagers() {
+    console.log('Initializing camera and subscription managers');
+    
+    // Initialize camera manager
+    if (typeof CameraManager !== 'undefined') {
+      window.cameraManager = new CameraManager();
+    }
+    
+    // Initialize subscription manager
+    if (typeof SubscriptionManager !== 'undefined') {
+      window.subscriptionManager = new SubscriptionManager();
+    }
+    
+    // Initialize sync service
+    if (typeof SyncService !== 'undefined') {
+      window.syncService = new SyncService();
+      window.syncService.startBackgroundSync();
+    }
+    
+    // Example of using the ComponentFactory to create a component dynamically
+    this.createDynamicComponents();
+  }
+  
+  createDynamicComponents() {
+    // Example of creating a dynamic button using the ComponentFactory
+    const container = document.querySelector('.camera-controls');
+    if (container) {
+      const resetButton = ComponentFactory.createButton('reset-camera', 'Reset', 'secondary');
+      resetButton.setProperty('disabled', true);
+      resetButton.addEventListener('click', () => {
+        console.log('Reset camera clicked');
+        if (window.cameraManager) {
+          // Reset camera functionality
+          window.cameraManager.stopCamera();
+          window.cameraManager.startCamera();
+        }
+      });
+      container.appendChild(resetButton.getElement());
     }
   }
   
@@ -70,12 +237,16 @@ class SansUIApp {
   }
   
   updatePlatformInfo() {
-    // Add platform info to the page
-    const footer = document.querySelector('footer');
-    const platformInfo = document.createElement('p');
-    platformInfo.textContent = `Detected platform: ${this.getPlatformName()}`;
-    platformInfo.className = 'platform-info';
-    footer.appendChild(platformInfo);
+    // Add platform info to the page using Sans UI components
+    const footer = document.querySelector('sans-footer');
+    
+    // Create platform info using ComponentFactory
+    const platformInfo = ComponentFactory.createDiv('platform-info', 'platform-info');
+    const platformText = document.createElement('sans-p');
+    platformText.textContent = `Detected platform: ${this.getPlatformName()}`;
+    platformInfo.getElement().appendChild(platformText);
+    
+    footer.appendChild(platformInfo.getElement());
     
     // Add platform-specific class to body for styling
     document.body.classList.add(`platform-${this.platform}`);

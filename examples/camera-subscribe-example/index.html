@@ -7,68 +7,83 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <div class="app-container">
-    <header>
-      <h1>Sans UI Demo App</h1>
-      <p class="subtitle">Camera Access & Subscription Form</p>
-    </header>
+  <sans-div className="app-container">
+    <sans-header>
+      <sans-h1>Sans UI Demo App</sans-h1>
+      <sans-p className="subtitle">Camera Access & Subscription Form</sans-p>
+    </sans-header>
 
-    <main>
-      <section class="camera-section">
-        <h2>Camera Demo</h2>
-        <div class="camera-container">
+    <sans-main>
+      <sans-section className="camera-section">
+        <sans-h2>Camera Demo</sans-h2>
+        <sans-div className="camera-container">
           <video id="camera-feed" autoplay playsinline></video>
           <canvas id="camera-canvas" style="display: none;"></canvas>
-          <div class="camera-controls">
-            <button id="start-camera" class="btn primary">Start Camera</button>
-            <button id="take-photo" class="btn secondary" disabled>Take Photo</button>
-            <button id="switch-camera" class="btn secondary" disabled>Switch Camera</button>
-          </div>
-        </div>
-        <div class="photo-container">
-          <h3>Captured Photos</h3>
-          <div id="photos-gallery" class="photos-gallery"></div>
-        </div>
-      </section>
+          <sans-div className="camera-controls">
+            <sans-button id="start-camera" type="primary">Start Camera</sans-button>
+            <sans-button id="take-photo" type="secondary" disabled>Take Photo</sans-button>
+            <sans-button id="switch-camera" type="secondary" disabled>Switch Camera</sans-button>
+          </sans-div>
+        </sans-div>
+        <sans-div className="photo-container">
+          <sans-h3>Captured Photos</sans-h3>
+          <sans-div id="photos-gallery" className="photos-gallery"></sans-div>
+        </sans-div>
+      </sans-section>
 
-      <section class="subscribe-section">
-        <h2>Subscribe to Updates</h2>
-        <p>Join our waitlist to be notified when we launch new features!</p>
+      <sans-section className="subscribe-section">
+        <sans-h2>Subscribe to Updates</sans-h2>
+        <sans-p>Join our waitlist to be notified when we launch new features!</sans-p>
         
-        <form id="subscribe-form" class="subscribe-form">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Your name" required>
-          </div>
+        <sans-form id="subscribe-form" className="subscribe-form">
+          <sans-div className="form-group">
+            <sans-label for="name">Name</sans-label>
+            <sans-input type="text" id="name" name="name" placeholder="Your name" required></sans-input>
+          </sans-div>
           
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Your email address" required>
-          </div>
+          <sans-div className="form-group">
+            <sans-label for="email">Email</sans-label>
+            <sans-input type="email" id="email" name="email" placeholder="Your email address" required></sans-input>
+          </sans-div>
           
-          <div class="form-group checkbox-group">
-            <input type="checkbox" id="consent" name="consent" required>
-            <label for="consent">I agree to receive updates about Sans UI</label>
-          </div>
+          <sans-div className="form-group checkbox-group">
+            <sans-input type="checkbox" id="consent" name="consent" required></sans-input>
+            <sans-label for="consent">I agree to receive updates about Sans UI</sans-label>
+          </sans-div>
           
-          <button type="submit" class="btn primary">Subscribe</button>
-        </form>
+          <sans-button type="primary" id="subscribe-button">Subscribe</sans-button>
+        </sans-form>
         
-        <div id="subscription-success" class="success-message" style="display: none;">
-          <h3>Thank you for subscribing!</h3>
-          <p>We'll keep you updated on our progress.</p>
-        </div>
-      </section>
-    </main>
+        <sans-div id="subscription-success" className="success-message" style="display: none;">
+          <sans-h3>Thank you for subscribing!</sans-h3>
+          <sans-p>We'll keep you updated on our progress.</sans-p>
+        </sans-div>
+      </sans-section>
+    </sans-main>
 
-    <footer>
-      <p>Built with <a href="https://github.com/profullstack/sans-ui" target="_blank">Sans UI</a> - Cross-platform native UI library</p>
-      <p>Supports iOS, Android, Windows, macOS, Linux, Qt, and GTK</p>
-    </footer>
-  </div>
+    <sans-footer>
+      <sans-p>Built with <sans-a href="https://github.com/profullstack/sans-ui" target="_blank">Sans UI</sans-a> - Cross-platform native UI library</sans-p>
+      <sans-p>Supports iOS, Android, Windows, macOS, Linux, Qt, and GTK</sans-p>
+    </sans-footer>
+  </sans-div>
 
-  <!-- Import the Sans UI library -->
-  <script type="module" src="../../dist/sans-ui.js"></script>
+  <!-- Import the Sans UI components -->
+  <script type="module">
+    // Import the Sans UI components
+    import '../../src/components/html5/Div.js';
+    import '../../src/components/html5/Header.js';
+    import '../../src/components/html5/Main.js';
+    import '../../src/components/html5/Section.js';
+    import '../../src/components/html5/Footer.js';
+    import '../../src/components/html5/H1.js';
+    import '../../src/components/html5/H2.js';
+    import '../../src/components/html5/H3.js';
+    import '../../src/components/html5/P.js';
+    import '../../src/components/html5/A.js';
+    import '../../src/components/html5/Button.js';
+    import '../../src/components/html5/Input.js';
+    import '../../src/components/html5/Label.js';
+  </script>
   
   <!-- Import our app scripts -->
   <script src="js/camera.js"></script>
