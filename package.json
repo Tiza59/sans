@@ -1,7 +1,7 @@
 {
   "name": "@profullstack/sans-ui",
   "version": "1.0.0",
-  "description": "A cross-platform UI library with Svelte and Web Components for HTML5 elements",
+  "description": "A cross-platform native UI library which supports iOS, Android, Windows, macOS, and Linux using WebViewJS, Apple's WKWebView API, and KDE's Qt WebEngine. Built with Svelte 4 and web components.",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -28,9 +28,10 @@
   ],
   "scripts": {
     "dev": "pnpx vite",
-    "build": "pnpx vite build && pnpm run build:components && pnpm run build:types",
+    "build": "pnpx vite build && pnpm run build:components",
     "build:components": "node scripts/build-components.js",
     "build:types": "pnpx tsc --emitDeclarationOnly",
+    "build:with-types": "pnpx vite build && pnpm run build:components && pnpm run build:types",
     "preview": "pnpx vite preview",
     "prepublishOnly": "pnpm run build",
     "test": "pnpx vitest run",
@@ -51,6 +52,7 @@
   "devDependencies": {
     "@sveltejs/package": "^2.2.2",
     "@sveltejs/vite-plugin-svelte": "^2.5.3",
+    "@types/node": "^22.13.10",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.45.0",
@@ -58,7 +60,7 @@
     "prettier": "^3.0.0",
     "prettier-plugin-svelte": "^3.0.0",
     "svelte": "^4.2.19",
-    "typescript": "^5.0.0",
+    "typescript": "^5.8.2",
     "vite": "^4.5.9",
     "vitest": "^0.34.0"
   },
