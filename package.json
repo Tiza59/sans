@@ -83,6 +83,7 @@
   },
   "homepage": "https://github.com/profullstack/sans-ui",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "@profullstack:registry": "https://npm.pkg.github.com"
   }
 }
