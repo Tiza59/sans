@@ -2,6 +2,22 @@
 
 A cross-platform native UI library which supports iOS, Android, Windows, macOS, and Linux using WebViewJS and Apple's WKWebView API. Built with Svelte 4 and web components.
 
+### Frontends
+[![Svelte](https://img.shields.io/badge/Svelte-f1413d.svg?logo=svelte&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/svelte)
+[![web Components](https://img.shields.io/badge/Web%20Components-29ABE2?logo=webcomponentsdotorg&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/web-components)
+
+### Runtimes
+[![NodeJS](https://img.shields.io/badge/Node-6DA55F?logo=node.js&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/runtime-support)
+[![Deno](https://img.shields.io/badge/Deno-000?logo=deno&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/runtime-support)
+[![Bun](https://img.shields.io/badge/Bun-000?logo=bun&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/runtime-support)
+
+### Platforms
+[![Android](https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=fff&style=for-the-badge)](https://github.com/profullstack/sans-ui)
+[![iOS](https://img.shields.io/badge/iOS-000000?logo=apple&logoColor=fff&style=for-the-badge)](https://github.com/profullstack/sans-ui)
+[![Windows](https://img.shields.io/badge/Windows-0078D6?logo=windows&logoColor=fff&style=for-the-badge)](https://github.com/profullstack/sans-ui)
+[![macOS](https://img.shields.io/badge/macOS-000000?logo=macos&logoColor=fff&style=for-the-badge)](https://github.com/profullstack/sans-ui)
+[![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=000&style=for-the-badge)](https://github.com/profullstack/sans-ui)
+
 ## About
 
 Sans UI is designed to create consistent user interfaces across multiple platforms while leveraging native capabilities. The library uses:
