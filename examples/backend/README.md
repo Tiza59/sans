@@ -1,6 +1,5 @@
 <p align="center">
   <img src="../../logo.svg" alt="Sans UI Logo" width="138" height="74" />
-  <span style="font-size: 24px; vertical-align: middle;">sans-ui</span>
 </p>
 
 # Sans UI Backend Example
