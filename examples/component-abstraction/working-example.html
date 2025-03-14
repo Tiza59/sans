@@ -4,24 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sans UI Component Abstraction Example</title>
-  <link rel="stylesheet" href="./styles.css">
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       max-width: 800px;
       margin: 0 auto;
       padding: 20px;
+      background-color: #121212;
+      color: #e0e0e0;
     }
     
     h1, h2 {
-      color: #333;
+      color: #f0f0f0;
     }
     
     .demo-section {
       margin: 20px 0;
       padding: 20px;
-      border: 1px solid #eee;
+      border: 1px solid #333;
       border-radius: 8px;
+      background-color: #1e1e1e;
     }
     
     .component-row {
@@ -33,10 +35,11 @@
     }
     
     pre {
-      background-color: #f5f5f5;
+      background-color: #2a2a2a;
       padding: 10px;
       border-radius: 4px;
       overflow: auto;
+      color: #e0e0e0;
     }
     
     code {
@@ -46,9 +49,65 @@
     #output {
       margin-top: 20px;
       padding: 10px;
-      background-color: #f0f0f0;
+      background-color: #2a2a2a;
       border-radius: 4px;
       min-height: 100px;
+    }
+
+    /* Custom styles for the Sans UI components */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .btn.primary {
+      background-color: #6200ee;
+      color: white;
+    }
+
+    .btn.secondary {
+      background-color: #03dac6;
+      color: #000;
+    }
+
+    .btn.danger {
+      background-color: #cf6679;
+      color: white;
+    }
+
+    .btn.default {
+      background-color: #f5f5f5;
+      color: #333;
+      border-color: #ddd;
+    }
+
+    .btn.small {
+      padding: 4px 12px;
+      font-size: 12px;
+    }
+
+    .btn.medium {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+
+    .btn.large {
+      padding: 12px 24px;
+      font-size: 16px;
+    }
+
+    .btn[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
     }
   </style>
 </head>
@@ -83,16 +142,16 @@ primaryButton.create(document.getElementById('button-container'));</code></pre>
     <div class="component-row">
       <div id="dynamic-button-container"></div>
       <div>
-        <label>
+        <label style="color: #e0e0e0;">
           <input type="checkbox" id="disable-toggle"> Disable Button
         </label>
-        <select id="type-selector">
+        <select id="type-selector" style="background-color: #2a2a2a; color: #e0e0e0; border: 1px solid #444;">
           <option value="default">Default</option>
           <option value="primary">Primary</option>
           <option value="secondary">Secondary</option>
           <option value="danger">Danger</option>
         </select>
-        <select id="size-selector">
+        <select id="size-selector" style="background-color: #2a2a2a; color: #e0e0e0; border: 1px solid #444;">
           <option value="small">Small</option>
           <option value="medium">Medium</option>
           <option value="large">Large</option>
@@ -111,16 +170,88 @@ primaryButton.create(document.getElementById('button-container'));</code></pre>
     <div id="output"></div>
   </div>
   
-  <!-- Import the Sans UI web components -->
-  <script type="module" src="./sans-components.js"></script>
+  <!-- Custom implementation of Sans UI components for the demo -->
+  <script>
+    // Define custom elements for Sans UI components
+    class SansButtonElement extends HTMLElement {
+      constructor() {
+        super();
+        this._button = document.createElement('button');
+        this._button.className = 'btn';
+        this.appendChild(this._button);
+        
+        // Apply initial attributes
+        this._applyAttributes();
+      }
+      
+      _applyAttributes() {
+        // Apply type
+        if (this.hasAttribute('type')) {
+          this._button.classList.add(this.getAttribute('type'));
+        } else {
+          this._button.classList.add('default');
+        }
+        
+        // Apply size
+        if (this.hasAttribute('size')) {
+          this._button.classList.add(this.getAttribute('size'));
+        } else {
+          this._button.classList.add('medium');
+        }
+        
+        // Apply disabled state
+        if (this.hasAttribute('disabled')) {
+          this._button.disabled = true;
+        }
+      }
+      
+      // Observe attribute changes
+      static get observedAttributes() {
+        return ['type', 'size', 'disabled'];
+      }
+      
+      attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'type') {
+          if (oldValue) {
+            this._button.classList.remove(oldValue);
+          }
+          if (newValue) {
+            this._button.classList.add(newValue);
+          }
+        } else if (name === 'size') {
+          if (oldValue) {
+            this._button.classList.remove(oldValue);
+          }
+          if (newValue) {
+            this._button.classList.add(newValue);
+          }
+        } else if (name === 'disabled') {
+          this._button.disabled = newValue !== null;
+        }
+      }
+    }
+    
+    // Register custom elements
+    customElements.define('sans-button', SansButtonElement);
+  </script>
   
-  <!-- Import the Sans UI component abstraction layer -->
+  <!-- Import the component abstraction layer -->
   <script type="module">
     import ComponentFactory from '../../src/lib/components/ComponentFactory.js';
     import ComponentAdapter from '../../src/lib/components/ComponentAdapter.js';
     
     // Make ComponentFactory available globally for this demo
     window.ComponentFactory = ComponentFactory;
+    
+    // Function to log output to the output div
+    function logOutput(message) {
+      const output = document.getElementById('output');
+      const timestamp = new Date().toLocaleTimeString();
+      output.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+    }
+    
+    // Make logOutput available globally
+    window.logOutput = logOutput;
     
     // Wait for the DOM to be ready
     document.addEventListener('DOMContentLoaded', () => {
@@ -204,24 +335,12 @@ primaryButton.create(document.getElementById('button-container'));</code></pre>
           component.off('click', clickHandler);
           logOutput('Click handler removed after 5 clicks');
           component.getElement().textContent = 'Handler Removed';
-          component.setProperty('type', 'secondary');
         }
       };
       
       clickCounter.on('click', clickHandler);
       clickCounter.create(document.getElementById('event-container'));
     });
-    
-    // Helper function to log output
-    function logOutput(message) {
-      const output = document.getElementById('output');
-      const timestamp = new Date().toLocaleTimeString();
-      output.innerHTML += `<div>[${timestamp}] ${message}</div>`;
-      // Scroll to bottom
-      output.scrollTop = output.scrollHeight;
-    }
-    
-    window.logOutput = logOutput;
   </script>
 </body>
 </html>
