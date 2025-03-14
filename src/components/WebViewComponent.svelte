@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { createWebView } from '../lib/webview/WebViewAdapter';
-  import Button from './Button.svelte';
+  import Button from './html5/Button.svelte';
 
   export let url = 'https://example.com';
   export let height = '500px';

@@ -1,0 +1,27 @@
+{
+  "name": "sans-ui-backend-example",
+  "version": "1.0.0",
+  "description": "Backend API example for Sans UI using Elysia and Mailgun",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "keywords": [
+    "sans-ui",
+    "elysia",
+    "mailgun",
+    "api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@elysiajs/cors": "^0.8.0",
+    "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^16.3.1",
+    "elysia": "^0.8.9",
+    "form-data": "^4.0.0",
+    "mailgun.js": "^9.3.0"
+  }
+}
