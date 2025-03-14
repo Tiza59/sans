@@ -97,7 +97,7 @@ bun add @profullstack/sans-ui
 ## Running in Dev Mode
 
 ```sh
-pnpm dev
+pnpm dev  # This uses pnpx vite internally
 ```
 
 ## Running examples locally
@@ -160,13 +160,13 @@ make
 ## Building
 
 ```sh
-pnpm build
+pnpm build  # This uses pnpx vite build internally
 ```
 
 ## Preview
 
 ```sh
-pnpm preview
+pnpm preview  # This uses pnpx vite preview internally
 ```
 
 ## Publishing
