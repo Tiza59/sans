@@ -1,0 +1,24 @@
+# Sans UI Bun Configuration
+
+[install]
+dry-run = false
+frozen-lockfile = false
+
+[install.cache]
+dir = ".bun/install/cache"
+enabled = true
+
+[test]
+coverage = false
+
+[build]
+entrypoints = ["src/index.js"]
+outdir = "dist"
+splitting = true
+minify = true
+modules = true
+
+[publish]
+access = "public"
+scope = "profullstack"
+registry = "https://registry.npmjs.org/"

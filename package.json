@@ -1,18 +1,82 @@
 {
-  "name": "sans",
+  "name": "@profullstack/sans-ui",
   "version": "1.0.0",
-  "description": "A Svelte 4 and Web component library using @webviewjs/webview",
+  "description": "A cross-platform UI library with Svelte and Web Components for HTML5 elements",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "svelte": "src/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./src/index.js",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./html5": {
+      "types": "./dist/html5/index.d.ts",
+      "svelte": "./src/components/html5/index.js",
+      "import": "./dist/html5/index.js",
+      "require": "./dist/html5/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "vite build && npm run build:components && npm run build:types",
+    "build:components": "node scripts/build-components.js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "deno:build": "node scripts/build-deno.js"
   },
   "dependencies": {
-    "svelte": "^4.0.0",
     "@webviewjs/webview": "^0.9.0"
   },
+  "peerDependencies": {
+    "svelte": "^4.0.0"
+  },
   "devDependencies": {
+    "@sveltejs/package": "^2.2.2",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.45.0",
+    "eslint-plugin-svelte": "^2.30.0",
+    "prettier": "^3.0.0",
+    "prettier-plugin-svelte": "^3.0.0",
+    "svelte": "^4.0.0",
+    "typescript": "^5.0.0",
     "vite": "^5.0.0",
-    "sveltekit": "^1.0.0"
+    "vitest": "^0.34.0"
+  },
+  "keywords": [
+    "svelte",
+    "web-components",
+    "ui-library",
+    "cross-platform",
+    "html5",
+    "components"
+  ],
+  "author": "Profullstack",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/profullstack/sans-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/profullstack/sans-ui/issues"
+  },
+  "homepage": "https://github.com/profullstack/sans-ui",
+  "publishConfig": {
+    "access": "public"
   }
 }
