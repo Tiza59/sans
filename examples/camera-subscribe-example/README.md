@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="../../logo.svg" alt="Sans UI Logo" width="138" height="74" />
+  <span style="font-size: 24px; vertical-align: middle;">sans-ui</span>
+</p>
+
 # Sans UI Camera & Subscribe Example
 
 This example demonstrates how to build a cross-platform application using Sans UI that utilizes device camera access and includes a subscription form for collecting email addresses.

@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="../../logo.svg" alt="Sans UI Logo" width="138" height="74" />
+  <span style="font-size: 24px; vertical-align: middle;">sans-ui</span>
+</p>
+
 # Sans UI Backend Example
 
 This is a simple backend API example for Sans UI using Elysia.js and Mailgun. It provides an API endpoint for handling subscription form submissions and sending welcome emails.

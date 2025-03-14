@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="logo.svg" alt="Sans UI Logo" width="138" height="74" />
+  <span style="font-size: 24px; vertical-align: middle;">sans-ui</span>
+</p>
+
 # Sans UI Library
 
 A cross-platform native UI library which supports iOS, Android, Windows, macOS, and Linux using WebViewJS, Apple's WKWebView API, and KDE's Qt WebEngine. Built with Svelte 4 and web components.

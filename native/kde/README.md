@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="../../logo.svg" alt="Sans UI Logo" width="138" height="74" />
+  <span style="font-size: 24px; vertical-align: middle;">sans-ui</span>
+</p>
+
 # Sans UI KDE Bridge
 
 This is a native KDE implementation for Sans UI using Qt WebEngine. It provides a bridge between your web-based UI and native KDE functionality.

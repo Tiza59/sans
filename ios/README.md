@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="../logo.svg" alt="Sans UI Logo" width="138" height="74" />
+  <span style="font-size: 24px; vertical-align: middle;">sans-ui</span>
+</p>
+
 # WKWebView Integration for iOS
 
 This directory contains the native iOS code needed to implement Apple's WKWebView in your iOS application. The implementation provides a bridge between your Svelte application and the native WKWebView component.

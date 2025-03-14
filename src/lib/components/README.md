@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="../../../../logo.svg" alt="Sans UI Logo" width="138" height="74" />
+  <span style="font-size: 24px; vertical-align: middle;">sans-ui</span>
+</p>
+
 # Sans UI Component Abstraction Layer
 
 This module provides a simple abstraction layer for Sans UI components, making it easier to work with web components across different platforms and frameworks. It simplifies property passing and event handling, providing a consistent API regardless of the underlying implementation.
