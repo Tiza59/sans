@@ -240,4 +240,4 @@ export default {
 ---
 
 *Built happily using "Windsurf on Linux"*  
-*Sponsored by [Profullstack, Inc.](https://profullstack.com)*
+*Sponsored by [Profullstack, Inc.](https://profullstack.com)* -- hire us!
