@@ -37,7 +37,10 @@
     "test:watch": "vitest",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "deno:build": "node scripts/build-deno.js"
+    "deno:build": "node scripts/build-deno.js",
+    "publish:npm": "npm publish",
+    "publish:bun": "bun publish",
+    "publish:deno": "npm run deno:build && deno publish"
   },
   "dependencies": {
     "@webviewjs/webview": "^0.9.0"
