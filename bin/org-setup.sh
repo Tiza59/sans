@@ -16,7 +16,7 @@ NC="\033[0m" # No Color
 BOLD="\033[1m"
 
 # Configuration
-ORG_NAME="profullstack"
+ORG_NAME="profullstackinc"
 ORG_DESCRIPTION="Professional Fullstack Development"
 PKG_NAME="sans-ui"
 FULL_PKG_NAME="@${ORG_NAME}/${PKG_NAME}"
