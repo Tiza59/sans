@@ -1,7 +1,7 @@
 {
-  "name": "desktop-ui",
+  "name": "sans",
   "version": "1.0.0",
-  "description": "A Svelte 4 component library using @webviewjs/webview",
+  "description": "A Svelte 4 and Web component library using @webviewjs/webview",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
