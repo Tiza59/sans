@@ -169,6 +169,70 @@ pnpm build
 pnpm preview
 ```
 
+## Publishing
+
+To publish a new version of Sans UI:
+
+1. **Update the version** in `package.json`
+
+```sh
+# Bump the version (choose one)
+npm version patch  # For bug fixes (0.0.x)
+npm version minor  # For new features (0.x.0)
+npm version major  # For breaking changes (x.0.0)
+```
+
+2. **Build the package**
+
+```sh
+pnpm build
+```
+
+3. **Test the build locally** (optional but recommended)
+
+```sh
+# Create a tarball
+npm pack
+
+# Install in a test project
+npm install --no-save /path/to/profullstack-sans-ui-x.y.z.tgz
+```
+
+4. **Publish to package registries**
+
+   a. **Publish to npm**
+   ```sh
+   npm run publish:npm
+   # or directly
+   npm publish --access public
+   ```
+
+   b. **Publish to Bun**
+   ```sh
+   npm run publish:bun
+   # or directly
+   bun publish
+   ```
+
+   c. **Publish to Deno**
+   ```sh
+   npm run publish:deno
+   # This runs the deno:build script first and then publishes
+   ```
+
+5. **Create a GitHub release**
+   - Tag the release in git
+   - Create a release on GitHub with release notes
+   - Attach the built package to the release
+
+```sh
+# Create a git tag
+git tag v$(node -p "require('./package.json').version")
+
+# Push the tag
+git push origin v$(node -p "require('./package.json').version")
+```
+
 ## Usage Examples
 
 ### Using HTML5 Components
