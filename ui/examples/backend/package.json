@@ -15,7 +15,7 @@
     "api"
   ],
   "author": "",
-  "license": "MIT",
+  "license": "ISC",
   "dependencies": {
     "@elysiajs/cors": "^0.8.0",
     "@supabase/supabase-js": "^2.39.0",
