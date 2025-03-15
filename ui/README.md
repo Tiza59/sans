@@ -1,7 +1,7 @@
 <p align="center">
-  <a href="./ui"><img src="static/logos/ui/logo.sans-ui.white.svg" alt="Sans UI Logo" width="180" height="60" style="margin-right: 20px;" /></a>
-  <a href="./api"><img src="static/logos/api/logo.sans-api.white.svg" alt="Sans API Logo" width="180" height="60" style="margin-right: 20px;" /></a>
-  <a href="./db"><img src="static/logos/db/logo.sans-db.white.svg" alt="Sans DB Logo" width="180" height="60" /></a>
+  <a href="./ui"><img src="static/logos/ui/logo.sans-ui.white.svg" alt="Sans UI Logo" width="180" height="60" style="margin: 1.2rem;" /></a>
+  <a href="./api"><img src="static/logos/api/logo.sans-api.white.svg" alt="Sans API Logo" width="180" height="60" style="margin: 1.2rem;" /></a>
+  <a href="./db"><img src="static/logos/db/logo.sans-db.white.svg" alt="Sans DB Logo" width="180" height="60" style="margin: 1.2rem;" /></a>
 </p>
 
 # Sans UI Library
