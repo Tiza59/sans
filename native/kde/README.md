@@ -1,7 +1,7 @@
 <p align="center">
   <img src="../../static/logos/ui/logo.sans-ui.svg" alt="Sans UI Logo" width="180" height="60" style="margin-right: 20px;" />
-  <img src="../../static/logos/api/logo.sans-api.svg" alt="Sans API Logo" width="180" height="60" style="margin-right: 20px;" />
-  <img src="../../static/logos/db/logo.sans-db.svg" alt="Sans DB Logo" width="180" height="60" />
+  <img src="../../static/logos/api/logo.sans-api.white.svg" alt="Sans API Logo" width="180" height="60" style="margin-right: 20px;" />
+  <img src="../../static/logos/db/logo.sans-db.white.svg" alt="Sans DB Logo" width="180" height="60" />
 </p>
 
 # Sans UI KDE Bridge
