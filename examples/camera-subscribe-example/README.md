@@ -1,7 +1,7 @@
 <p align="center">
-  <img src="../../static/ui/logo.sans-ui.svg" alt="Sans UI Logo" width="138" height="74" style="margin-right: 20px;" />
-  <img src="../../static/api/logo.sans-api.svg" alt="Sans API Logo" width="138" height="74" style="margin-right: 20px;" />
-  <img src="../../static/db/logo.sans-db.svg" alt="Sans DB Logo" width="138" height="74" />
+  <img src="../../static/logos/ui/logo.sans-ui.svg" alt="Sans UI Logo" width="180" height="60" style="margin-right: 20px;" />
+  <img src="../../static/logos/api/logo.sans-api.svg" alt="Sans API Logo" width="180" height="60" style="margin-right: 20px;" />
+  <img src="../../static/logos/db/logo.sans-db.svg" alt="Sans DB Logo" width="180" height="60" />
 </p>
 
 # Sans UI Camera & Subscribe Example
