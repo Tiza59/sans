@@ -1,7 +1,7 @@
 <p align="center">
-  <a href="./ui"><img src="ui/static/logos/ui/logo.sans-ui.white.svg" alt="Sans UI Logo" height="60" style="margin: 1.2rem;" /></a>
-  <a href="./api"><img src="ui/static/logos/api/logo.sans-api.white.svg" alt="Sans API Logo" height="60" style="margin: 1.2rem;" /></a>
-  <a href="./db"><img src="ui/static/logos/db/logo.sans-db.white.svg" alt="Sans DB Logo" height="60" style="margin: 1.2rem;" /></a>
+  <a href="./ui"><img src="ui/static/logos/ui/logo.sans-ui.white.svg" alt="Sans UI Logo" height="60" style="margin: 2.2rem;" /></a>
+  <a href="./api"><img src="ui/static/logos/api/logo.sans-api.white.svg" alt="Sans API Logo" height="60" style="margin: 2.2rem;" /></a>
+  <a href="./db"><img src="ui/static/logos/db/logo.sans-db.white.svg" alt="Sans DB Logo" height="60" style="margin: 2.2rem;" /></a>
 </p>
 
 # Sans Project
