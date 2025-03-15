@@ -1,3 +1,9 @@
+<p align="center">
+  <img src="../../static/ui/logo.sans-ui.svg" alt="Sans UI Logo" width="138" height="74" style="margin-right: 20px;" />
+  <img src="../../static/api/logo.sans-api.svg" alt="Sans API Logo" width="138" height="74" style="margin-right: 20px;" />
+  <img src="../../static/db/logo.sans-db.svg" alt="Sans DB Logo" width="138" height="74" />
+</p>
+
 # Sans UI Elements Showcase
 
 This example showcases all the available UI elements and components in the Sans UI library. It serves as a visual reference and documentation for developers using the Sans UI framework.

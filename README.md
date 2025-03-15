@@ -1,5 +1,7 @@
 <p align="center">
-  <img src="logo.svg" alt="Sans UI Logo" width="138" height="74" />
+  <img src="static/ui/logo.sans-ui.svg" alt="Sans UI Logo" width="138" height="74" style="margin-right: 20px;" />
+  <img src="static/api/logo.sans-api.svg" alt="Sans API Logo" width="138" height="74" style="margin-right: 20px;" />
+  <img src="static/db/logo.sans-db.svg" alt="Sans DB Logo" width="138" height="74" />
 </p>
 
 # Sans UI Library
