@@ -8,6 +8,41 @@
 
 A cross-platform native application framework with UI, API, and DB components.
 
+
+### Frontends
+[![Svelte](https://img.shields.io/badge/Svelte-f1413d.svg?logo=svelte&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/svelte)
+[![Web Components](https://img.shields.io/badge/Web%20Components-29ABE2?logo=webcomponentsdotorg&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/web-components)
+
+### Desktops
+[![Qt](https://img.shields.io/badge/Qt-41CD52?logo=qt&logoColor=fff&style=for-the-badge)](https://www.qt.io/)
+[![GTK](https://img.shields.io/badge/GTK-4A86CF?logo=gtk&logoColor=fff&style=for-the-badge)](https://www.gtk.org/)
+
+### Runtimes
+[![NodeJS](https://img.shields.io/badge/Node-6DA55F?logo=node.js&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/runtime-support)
+[![Deno](https://img.shields.io/badge/Deno-000?logo=deno&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/runtime-support)
+[![Bun](https://img.shields.io/badge/Bun-000?logo=bun&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/runtime-support)
+
+### Platforms
+[![Android](https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=fff&style=for-the-badge)](https://github.com/profullstack/sans-ui)
+[![iOS](https://img.shields.io/badge/iOS-000000?logo=apple&logoColor=fff&style=for-the-badge)](https://github.com/profullstack/sans-ui)
+[![Windows](https://img.shields.io/badge/Windows-0078D6?logo=windows&logoColor=fff&style=for-the-badge)](https://github.com/profullstack/sans-ui)
+[![macOS](https://img.shields.io/badge/macOS-000000?logo=macos&logoColor=fff&style=for-the-badge)](https://github.com/profullstack/sans-ui)
+[![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=000&style=for-the-badge)](https://github.com/profullstack/sans-ui)
+[![KDE](https://img.shields.io/badge/KDE-1D99F3?logo=kde&logoColor=fff&style=for-the-badge)](https://github.com/profullstack/sans-ui)
+[![GNOME](https://img.shields.io/badge/GNOME-4A86CF?logo=gnome&logoColor=fff&style=for-the-badge)](https://github.com/profullstack/sans-ui)
+
+### Databases
+
+[![Supabase](https://shields.io/badge/supabase-black?logo=supabase&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#supabase)
+
+
+#### Planned (TBD) 
+[![MongoDB](https://img.shields.io/badge/MongoDB-4ea94b.svg?logo=mongodb&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#mongodb)
+[![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#mysql)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192.svg?logo=postgresql&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#postgresql)
+[![SQLite](https://img.shields.io/badge/SQLite-07405e.svg?logo=sqlite&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#postgresql)
+[![SurrealDB](https://img.shields.io/badge/SurrealDB-FF00A0.svg?logo=surrealdb&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#surrealdb)
+
 ## Components
 
 ### [Sans UI](./ui/README.md)
