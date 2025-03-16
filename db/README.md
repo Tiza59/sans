@@ -8,6 +8,17 @@
 
 A database abstraction layer for working with various database systems.
 
+### Databases
+
+[![Supabase](https://shields.io/badge/supabase-black?logo=supabase&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#supabase)
+
+#### Planned (TBD) 
+[![MongoDB](https://img.shields.io/badge/MongoDB-4ea94b.svg?logo=mongodb&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#mongodb)
+[![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#mysql)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192.svg?logo=postgresql&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#postgresql)
+[![SQLite](https://img.shields.io/badge/SQLite-07405e.svg?logo=sqlite&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#postgresql)
+[![SurrealDB](https://img.shields.io/badge/SurrealDB-FF00A0.svg?logo=surrealdb&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#surrealdb)
+
 ## Coming Soon
 
 The Sans DB framework is currently under development. Stay tuned for updates!

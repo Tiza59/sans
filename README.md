@@ -35,7 +35,6 @@ A cross-platform native application framework with UI, API, and DB components.
 
 [![Supabase](https://shields.io/badge/supabase-black?logo=supabase&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#supabase)
 
-
 #### Planned (TBD) 
 [![MongoDB](https://img.shields.io/badge/MongoDB-4ea94b.svg?logo=mongodb&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#mongodb)
 [![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#mysql)
