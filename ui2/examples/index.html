@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans UI - Documentation & Examples</title>
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="stylesheet" href="./common/styles.css">
+</head>
+<body>
+  <div class="layout-container">
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title">Sans UI Documentation</h1>
+        <p class="page-description">
+          A cross-platform native UI library which supports iOS, Android, Windows, macOS, and Linux using NodeGUI for desktop and NativeScript for mobile.
+        </p>
+      </header>
+      
+      <section class="platform-info">
+        <h2>Platform Information</h2>
+        <pre id="platform-output">Loading platform information...</pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Introduction</h2>
+        <p>
+          Sans UI is a universal UI framework that maps <strong>Web Components</strong> and <strong>Svelte</strong> to 
+          <strong>NodeGUI (Qt)</strong> for desktop and <strong>NativeScript (UIKit/Android Views)</strong> for mobile.
+        </p>
+        <p>
+          This allows developers to write UI once using Web Component/Svelte syntax and have it render as 
+          native widgets on Windows, macOS, Linux, iOS, and Android.
+        </p>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Core Architecture</h2>
+        <p>The Sans UI architecture consists of several key components:</p>
+        <ul>
+          <li>
+            <strong>Web Components & Svelte as the API Layer</strong>
+            <p>Define UI using Web Components or Svelte syntax with a consistent API.</p>
+          </li>
+          <li>
+            <strong>Platform Detection</strong>
+            <p>Automatically detects the current platform (desktop, mobile, or web).</p>
+          </li>
+          <li>
+            <strong>Native UI Adapters</strong>
+            <p>Maps web components to native UI widgets on each platform.</p>
+          </li>
+          <li>
+            <strong>Event System</strong>
+            <p>Translates web events to native platform events.</p>
+          </li>
+        </ul>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Component Mapping</h2>
+        <p>Sans UI provides a standard UI schema that maps to both NodeGUI and NativeScript:</p>
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+          <thead>
+            <tr style="background-color: #f0f0f0;">
+              <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Component</th>
+              <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Web API</th>
+              <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Desktop (NodeGUI/Qt)</th>
+              <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Mobile (NativeScript)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><strong>Button</strong></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-button&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>QPushButton</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>Button</code></td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><strong>Text Input</strong></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-textbox&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>QLineEdit</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>TextField</code></td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><strong>Label</strong></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-label&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>QLabel</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>Label</code></td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><strong>List View</strong></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-list&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>QListWidget</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>ListView</code></td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><strong>Image</strong></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-image&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>QPixmap</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>Image</code></td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><strong>Container</strong></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-container&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>QWidget</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>StackLayout</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Getting Started</h2>
+        <p>To get started with Sans UI, explore the examples in the navigation menu:</p>
+        <ul>
+          <li><a href="./native-ui-example/index.html">Native UI Overview</a> - See the framework in action</li>
+          <li><a href="./button/button.html">Button Component</a> - Learn how to use buttons</li>
+          <li><a href="./div/div.html">Container Component</a> - Learn how to use containers</li>
+          <li><a href="./form-example/index.html">Form Elements</a> - Explore form components</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+  
+  <script type="module">
+    // Import Sans UI components
+    import { 
+      initialize, 
+      getPlatformInfo 
+    } from '../src/index.js';
+    
+    // Initialize Sans UI
+    initialize();
+    
+    // Load the navbar
+    fetch('./common/navbar.html')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('navbar-container').innerHTML = html;
+        
+        // Set active nav link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === './index.html') {
+            link.classList.add('active');
+          }
+        });
+        
+        // Display platform information
+        const platformInfo = getPlatformInfo();
+        document.getElementById('platform-output').textContent = 
+          JSON.stringify(platformInfo, null, 2);
+      })
+      .catch(error => {
+        console.error('Error loading navbar:', error);
+      });
+  </script>
+</body>
+</html>

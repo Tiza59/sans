@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans UI - Button Component</title>
+  <link rel="icon" type="image/png" href="../../favicon.png">
+  <link rel="stylesheet" href="../common/styles.css">
+</head>
+<body>
+  <div class="layout-container">
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title">Button Component</h1>
+        <p class="page-description">
+          The Button component provides a consistent way to create interactive buttons across all platforms.
+        </p>
+      </header>
+      
+      <section class="platform-info">
+        <h2>Platform Information</h2>
+        <pre id="platform-output">Loading platform information...</pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Basic Buttons</h2>
+        <p>Sans UI provides several button types to match your UI needs:</p>
+        <div class="component-row" id="basic-buttons">
+          <!-- Buttons will be created dynamically -->
+        </div>
+        
+        <pre><code>&lt;sans-button type="primary"&gt;Primary&lt;/sans-button&gt;
+&lt;sans-button type="secondary"&gt;Secondary&lt;/sans-button&gt;
+&lt;sans-button type="danger"&gt;Danger&lt;/sans-button&gt;
+&lt;sans-button&gt;Default&lt;/sans-button&gt;</code></pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Button Sizes</h2>
+        <p>Buttons come in different sizes to fit your layout:</p>
+        <div class="component-row" id="button-sizes">
+          <!-- Buttons will be created dynamically -->
+        </div>
+        
+        <pre><code>&lt;sans-button type="primary" size="small"&gt;Small&lt;/sans-button&gt;
+&lt;sans-button type="primary" size="medium"&gt;Medium&lt;/sans-button&gt;
+&lt;sans-button type="primary" size="large"&gt;Large&lt;/sans-button&gt;</code></pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Disabled Button</h2>
+        <p>Buttons can be disabled to prevent user interaction:</p>
+        <div class="component-row" id="disabled-button">
+          <!-- Button will be created dynamically -->
+        </div>
+        
+        <pre><code>&lt;sans-button type="primary" disabled&gt;Disabled&lt;/sans-button&gt;</code></pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Event Handling</h2>
+        <p>Buttons can respond to user interactions:</p>
+        <div class="component-row" id="event-handling">
+          <!-- Button will be created dynamically -->
+        </div>
+        <div id="output" class="output">Click the button to see the result</div>
+        
+        <pre><code>&lt;sans-button type="primary" id="click-button"&gt;Click Me&lt;/sans-button&gt;
+
+&lt;script&gt;
+  const button = document.getElementById('click-button');
+  button.addEventListener('click', () => {
+    document.getElementById('output').textContent = 
+      'Button clicked at: ' + new Date().toLocaleTimeString();
+  });
+&lt;/script&gt;</code></pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>JavaScript API Example</h2>
+        <p>You can also create buttons using the JavaScript API:</p>
+        
+        <div id="js-container" class="component-row"></div>
+        
+        <pre><code>import { createButton, getNativeUI } from '@profullstackinc/sans-ui';
+
+const button = createButton({
+  label: 'API Button',
+  type: 'primary'
+});
+
+const nativeUI = getNativeUI();
+nativeUI.setEventHandler(button, 'click', () => {
+  console.log('Button clicked!');
+});
+
+document.getElementById('container').appendChild(button);</code></pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Platform-Specific Rendering</h2>
+        <p>
+          The Button component renders differently on each platform:
+        </p>
+        <ul>
+          <li><strong>Web:</strong> Renders as a styled HTML button element</li>
+          <li><strong>Desktop:</strong> Renders as a native QPushButton (Qt) via NodeGUI</li>
+          <li><strong>Mobile:</strong> Renders as a native Button via NativeScript</li>
+        </ul>
+        <p>
+          This ensures that your buttons look and feel native on each platform while maintaining a consistent API.
+        </p>
+      </section>
+    </main>
+  </div>
+  
+  <script type="module">
+    // Import Sans UI components
+    import { 
+      initialize, 
+      getPlatformInfo, 
+      createButton, 
+      getNativeUI 
+    } from '../../src/index.js';
+    
+    // Initialize Sans UI
+    initialize();
+    
+    // Load the navbar
+    fetch('../common/navbar.html')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('navbar-container').innerHTML = html;
+        
+        // Set active nav link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === '../button/button.html') {
+            link.classList.add('active');
+          }
+        });
+        
+        // Continue with initialization
+        initPage();
+      });
+    
+    function initPage() {
+      // Display platform information
+      const platformInfo = getPlatformInfo();
+      document.getElementById('platform-output').textContent = 
+        JSON.stringify(platformInfo, null, 2);
+      
+      // Get the native UI adapter
+      const nativeUI = getNativeUI();
+      
+      // Create basic buttons
+      const basicButtonsContainer = document.getElementById('basic-buttons');
+      
+      const primaryButton = createButton({
+        label: 'Primary',
+        type: 'primary'
+      });
+      
+      const secondaryButton = createButton({
+        label: 'Secondary',
+        type: 'secondary'
+      });
+      
+      const dangerButton = createButton({
+        label: 'Danger',
+        type: 'danger'
+      });
+      
+      const defaultButton = createButton({
+        label: 'Default'
+      });
+      
+      basicButtonsContainer.appendChild(primaryButton);
+      basicButtonsContainer.appendChild(secondaryButton);
+      basicButtonsContainer.appendChild(dangerButton);
+      basicButtonsContainer.appendChild(defaultButton);
+      
+      // Create size buttons
+      const buttonSizesContainer = document.getElementById('button-sizes');
+      
+      const smallButton = createButton({
+        label: 'Small',
+        type: 'primary',
+        size: 'small'
+      });
+      
+      const mediumButton = createButton({
+        label: 'Medium',
+        type: 'primary',
+        size: 'medium'
+      });
+      
+      const largeButton = createButton({
+        label: 'Large',
+        type: 'primary',
+        size: 'large'
+      });
+      
+      buttonSizesContainer.appendChild(smallButton);
+      buttonSizesContainer.appendChild(mediumButton);
+      buttonSizesContainer.appendChild(largeButton);
+      
+      // Create disabled button
+      const disabledButtonContainer = document.getElementById('disabled-button');
+      
+      const disabledButton = createButton({
+        label: 'Disabled',
+        type: 'primary',
+        disabled: true
+      });
+      
+      disabledButtonContainer.appendChild(disabledButton);
+      
+      // Create event handling button
+      const eventHandlingContainer = document.getElementById('event-handling');
+      
+      const clickButton = createButton({
+        label: 'Click Me',
+        type: 'primary'
+      });
+      
+      nativeUI.setEventHandler(clickButton, 'click', () => {
+        document.getElementById('output').textContent = 'Button clicked at: ' + new Date().toLocaleTimeString();
+      });
+      
+      eventHandlingContainer.appendChild(clickButton);
+      
+      // Create JavaScript API example
+      const jsContainer = document.getElementById('js-container');
+      
+      const apiButtons = [
+        { label: 'API Primary', type: 'primary' },
+        { label: 'API Secondary', type: 'secondary' },
+        { label: 'API Danger', type: 'danger' }
+      ];
+      
+      apiButtons.forEach((buttonConfig) => {
+        const button = createButton(buttonConfig);
+        jsContainer.appendChild(button);
+        
+        nativeUI.setEventHandler(button, 'click', () => {
+          document.getElementById('output').textContent = 
+            `API Button clicked: ${buttonConfig.label}\nType: ${buttonConfig.type}`;
+        });
+      });
+    }
+  </script>
+</body>
+</html>

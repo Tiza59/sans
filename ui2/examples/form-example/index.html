@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans UI - Form Components</title>
+  <link rel="icon" type="image/png" href="../../favicon.png">
+  <link rel="stylesheet" href="../common/styles.css">
+  <style>
+    /* Custom styles for this example */
+    .form-container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+      border: 1px solid var(--border-color);
+      max-width: 600px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-actions {
+      margin-top: 25px;
+      display: flex;
+      gap: 10px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 16px;
+    }
+    
+    input[type="checkbox"] {
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="layout-container">
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title">Form Components</h1>
+        <p class="page-description">
+          Sans UI provides a set of form components that work consistently across all platforms.
+        </p>
+      </header>
+      
+      <section class="platform-info">
+        <h2>Platform Information</h2>
+        <pre id="platform-output">Loading platform information...</pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Form Example</h2>
+        <p>A complete form with various input types:</p>
+        
+        <div class="form-container">
+          <form id="userForm" method="post" action="#">
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input id="name" name="name" type="text" placeholder="Enter your full name" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input id="email" name="email" type="email" placeholder="Enter your email address" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="age">Age</label>
+              <input id="age" name="age" type="number" min="18" max="120" placeholder="Enter your age">
+            </div>
+            
+            <div class="form-group">
+              <label for="country">Country</label>
+              <select id="country" name="country">
+                <option value="">Select your country</option>
+                <option value="us">United States</option>
+                <option value="ca">Canada</option>
+                <option value="uk">United Kingdom</option>
+                <option value="au">Australia</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="Enter your message"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label>
+                <input type="checkbox" name="subscribe" id="subscribe">
+                Subscribe to newsletter
+              </label>
+            </div>
+            
+            <div class="form-actions" id="form-actions">
+              <!-- Buttons will be created dynamically -->
+            </div>
+          </form>
+        </div>
+        
+        <div id="formResult" class="output" style="display: none;">
+          <h3>Form Submission Result:</h3>
+          <pre id="resultContent"></pre>
+        </div>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Native Form Components</h2>
+        <p>This example demonstrates how to create form components using the JavaScript API:</p>
+        
+        <pre><code>import { createTextInput, createButton, getNativeUI } from '@profullstackinc/sans-ui';
+
+// Create a text input
+const nameInput = createTextInput({
+  placeholder: 'Enter your name',
+  value: ''
+});
+
+// Create a button
+const submitButton = createButton({
+  label: 'Submit',
+  type: 'primary'
+});
+
+// Set up event handlers
+getNativeUI().setEventHandler(submitButton, 'click', () => {
+  console.log('Form submitted with name:', nameInput.value);
+});
+
+// Add elements to the form
+document.getElementById('form-container').appendChild(nameInput);
+document.getElementById('form-container').appendChild(submitButton);</code></pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Platform-Specific Rendering</h2>
+        <p>
+          Form components render differently on each platform:
+        </p>
+        <ul>
+          <li><strong>Web:</strong> Renders as styled HTML form elements</li>
+          <li><strong>Desktop:</strong> Renders as native Qt widgets via NodeGUI</li>
+          <li><strong>Mobile:</strong> Renders as native UI controls via NativeScript</li>
+        </ul>
+        <p>
+          This ensures that your forms look and feel native on each platform while maintaining a consistent API.
+        </p>
+      </section>
+    </main>
+  </div>
+  
+  <script type="module">
+    // Import Sans UI components
+    import { 
+      initialize, 
+      getPlatformInfo, 
+      createButton, 
+      getNativeUI 
+    } from '../../src/index.js';
+    
+    // Initialize Sans UI
+    initialize();
+    
+    // Load the navbar
+    fetch('../common/navbar.html')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('navbar-container').innerHTML = html;
+        
+        // Set active nav link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === '../form-example/index.html') {
+            link.classList.add('active');
+          }
+        });
+        
+        // Continue with initialization
+        initPage();
+      });
+    
+    function initPage() {
+      // Display platform information
+      const platformInfo = getPlatformInfo();
+      document.getElementById('platform-output').textContent = 
+        JSON.stringify(platformInfo, null, 2);
+      
+      // Get the native UI adapter
+      const nativeUI = getNativeUI();
+      
+      // Create form buttons
+      const formActions = document.getElementById('form-actions');
+      
+      const submitButton = createButton({
+        label: 'Submit',
+        type: 'primary'
+      });
+      
+      const resetButton = createButton({
+        label: 'Reset',
+        type: 'secondary'
+      });
+      
+      formActions.appendChild(submitButton);
+      formActions.appendChild(resetButton);
+      
+      // Handle form submission
+      nativeUI.setEventHandler(submitButton, 'click', (e) => {
+        e.preventDefault();
+        
+        // Get form data
+        const form = document.getElementById('userForm');
+        const formData = new FormData(form);
+        const formDataObj = {};
+        
+        formData.forEach((value, key) => {
+          formDataObj[key] = value;
+        });
+        
+        // Display the result
+        const resultContent = document.getElementById('resultContent');
+        resultContent.textContent = JSON.stringify(formDataObj, null, 2);
+        
+        const resultDiv = document.getElementById('formResult');
+        resultDiv.style.display = 'block';
+      });
+      
+      // Handle form reset
+      nativeUI.setEventHandler(resetButton, 'click', () => {
+        document.getElementById('userForm').reset();
+        document.getElementById('formResult').style.display = 'none';
+      });
+    }
+  </script>
+</body>
+</html>

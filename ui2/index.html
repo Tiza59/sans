@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans UI - Native UI Architecture</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="module">
+    import { initialize } from './src/index.js';
+    import App from './src/app.svelte';
+    
+    // Initialize Sans UI
+    initialize();
+    
+    // Create the Svelte app
+    const app = new App({
+      target: document.getElementById('app')
+    });
+    
+    export default app;
+  </script>
+</body>
+</html>

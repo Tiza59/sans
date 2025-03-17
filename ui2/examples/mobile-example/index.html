@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans UI - Mobile Example (NativeScript)</title>
+  <link rel="icon" type="image/png" href="../../favicon.png">
+  <link rel="stylesheet" href="../common/styles.css">
+</head>
+<body>
+  <div class="layout-container">
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title">Mobile Example (NativeScript)</h1>
+        <p class="page-description">
+          This example demonstrates how Sans UI uses NativeScript to render native mobile UI components on iOS and Android.
+        </p>
+      </header>
+      
+      <section class="platform-info">
+        <h2>Platform Information</h2>
+        <pre id="platform-output">Loading platform information...</pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>NativeScript Integration</h2>
+        <p>
+          Sans UI uses NativeScript to render native mobile UI components. NativeScript is a framework
+          for building native mobile applications with JavaScript, TypeScript, and CSS.
+        </p>
+        <p>
+          When running on a mobile platform (iOS or Android), Sans UI automatically uses
+          the NativeScript adapter to render UI components as native mobile widgets.
+        </p>
+        <div class="component-row" id="mobile-components"></div>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Mobile Widget Mapping</h2>
+        <p>
+          Sans UI maps web components to native mobile widgets as follows:
+        </p>
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+          <thead>
+            <tr style="background-color: #f0f0f0;">
+              <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Sans UI Component</th>
+              <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">iOS (UIKit)</th>
+              <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Android</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-button&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>UIButton</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>Button</code></td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-textbox&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>UITextField</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>EditText</code></td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-label&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>UILabel</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>TextView</code></td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-container&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>UIStackView</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>LinearLayout</code></td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-list&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>UITableView</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>RecyclerView</code></td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-image&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>UIImageView</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>ImageView</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Mobile Adapter Implementation</h2>
+        <p>
+          The <code>MobileAdapter</code> class in Sans UI provides the bridge between web components and native mobile widgets:
+        </p>
+        <pre><code>class MobileAdapter {
+  constructor(options = {}) {
+    this.options = options;
+    this.rootView = null;
+    this.views = new Map();
+    this.eventHandlers = new Map();
+    
+    // Initialize root view if NativeScript is available
+    if (StackLayout) {
+      this.rootView = new StackLayout();
+    }
+  }
+
+  createElement(elementType, props = {}) {
+    // Check if NativeScript is available
+    if (!StackLayout) {
+      return this._createFallbackElement(elementType, props);
+    }
+
+    const ViewClass = COMPONENT_MAP[elementType.toLowerCase()] || StackLayout;
+    const view = new ViewClass();
+    
+    // Apply initial properties
+    this.updateElement(view, props);
+    
+    return view;
+  }
+
+  // ... other methods
+}</code></pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Mobile-Specific Features</h2>
+        <p>
+          Sans UI provides access to mobile-specific features through the NativeScript adapter:
+        </p>
+        <ul>
+          <li><strong>Touch Events:</strong> Support for touch events like tap, swipe, and pinch</li>
+          <li><strong>Native Dialogs:</strong> Access to native alert, confirm, and prompt dialogs</li>
+          <li><strong>Device Features:</strong> Access to camera, geolocation, and other device features</li>
+          <li><strong>Platform-Specific Styling:</strong> Ability to apply platform-specific styles</li>
+        </ul>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Running on Mobile</h2>
+        <p>
+          To run a Sans UI application as a native mobile application:
+        </p>
+        <ol>
+          <li>Install NativeScript: <code>npm install -g nativescript</code></li>
+          <li>Create a NativeScript project: <code>ns create my-app --template @nativescript/template-blank</code></li>
+          <li>Add Sans UI to your project: <code>npm install @profullstackinc/sans-ui</code></li>
+          <li>Build and run: <code>ns run ios</code> or <code>ns run android</code></li>
+        </ol>
+        <p>
+          The application will automatically use the NativeScript adapter when running on a mobile platform.
+        </p>
+      </section>
+    </main>
+  </div>
+  
+  <script type="module">
+    // Import Sans UI components
+    import { 
+      initialize, 
+      getPlatformInfo, 
+      createButton,
+      createContainer,
+      getNativeUI 
+    } from '../../src/index.js';
+    
+    // Initialize Sans UI
+    initialize();
+    
+    // Load the navbar
+    fetch('../common/navbar.html')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('navbar-container').innerHTML = html;
+        
+        // Set active nav link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === '../mobile-example/index.html') {
+            link.classList.add('active');
+          }
+        });
+        
+        // Continue with initialization
+        initPage();
+      });
+    
+    function initPage() {
+      // Display platform information
+      const platformInfo = getPlatformInfo();
+      document.getElementById('platform-output').textContent = 
+        JSON.stringify(platformInfo, null, 2);
+      
+      // Get the native UI adapter
+      const nativeUI = getNativeUI();
+      
+      // Create mobile components example
+      const mobileContainer = document.getElementById('mobile-components');
+      
+      // Create a container with mobile-like styling
+      const container = createContainer({
+        style: 'padding: 20px; background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'
+      });
+      
+      // Create buttons with different styles
+      const primaryButton = createButton({
+        label: 'Tap Me',
+        type: 'primary'
+      });
+      
+      const secondaryButton = createButton({
+        label: 'Disabled',
+        type: 'secondary',
+        disabled: true
+      });
+      
+      // Add components to container
+      nativeUI.appendChild(container, primaryButton);
+      nativeUI.appendChild(container, secondaryButton);
+      
+      // Add container to page
+      mobileContainer.appendChild(container);
+      
+      // Add event handler
+      nativeUI.setEventHandler(primaryButton, 'click', () => {
+        alert('Button tapped! In a real mobile app, this would use a native dialog.');
+      });
+    }
+  </script>
+</body>
+</html>

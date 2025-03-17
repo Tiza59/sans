@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans UI - Camera & Subscribe Example</title>
+  <link rel="icon" type="image/png" href="../../favicon.png">
+  <link rel="stylesheet" href="../common/styles.css">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+  <div class="layout-container">
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title">Camera & Subscribe Example</h1>
+        <p class="page-description">
+          This example demonstrates how to use the camera and subscription features with Sans UI.
+        </p>
+      </header>
+      
+      <section class="platform-info">
+        <h2>Platform Information</h2>
+        <pre id="platform-output">Loading platform information...</pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Camera Access</h2>
+        <p>This example shows how to access the camera safely across different platforms:</p>
+        
+        <div class="camera-container">
+          <div id="camera-placeholder">
+            <p>Click the button below to start the camera</p>
+          </div>
+          <video id="video" autoplay playsinline style="display: none;"></video>
+          <canvas id="canvas" style="display: none;"></canvas>
+          
+          <div class="camera-controls">
+            <button id="start-camera" class="btn primary">Start Camera</button>
+            <button id="take-photo" class="btn secondary" disabled>Take Photo</button>
+            <button id="stop-camera" class="btn danger" disabled>Stop Camera</button>
+          </div>
+          
+          <div id="photo-container" style="display: none;">
+            <h3>Captured Photo</h3>
+            <img id="photo" src="#" alt="Captured photo">
+          </div>
+        </div>
+        
+        <div class="output" id="camera-output">Camera status will appear here</div>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Subscription Form</h2>
+        <p>This example demonstrates a subscription form with validation:</p>
+        
+        <div class="subscribe-container">
+          <form id="subscribe-form">
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            </div>
+            
+            <div class="form-group">
+              <label>
+                <input type="checkbox" id="terms" name="terms" required>
+                I agree to the terms and conditions
+              </label>
+            </div>
+            
+            <div class="form-actions">
+              <button type="submit" id="subscribe-button" class="btn primary">Subscribe</button>
+            </div>
+          </form>
+        </div>
+        
+        <div class="output" id="subscribe-output">Subscription status will appear here</div>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Platform-Specific Handling</h2>
+        <p>
+          This example demonstrates how Sans UI handles platform-specific features:
+        </p>
+        <ul>
+          <li><strong>Web:</strong> Uses the Web API for camera access with appropriate permissions</li>
+          <li><strong>Desktop:</strong> Uses NodeGUI/Qt camera modules on desktop platforms</li>
+          <li><strong>Mobile:</strong> Uses NativeScript camera plugins on mobile platforms</li>
+        </ul>
+        <p>
+          The subscription form demonstrates form validation and submission across all platforms.
+        </p>
+      </section>
+    </main>
+  </div>
+  
+  <script type="module">
+    // Import Sans UI components
+    import { 
+      initialize, 
+      getPlatformInfo 
+    } from '../../src/index.js';
+    
+    // Import camera and subscribe modules
+    import { initCamera, takePhoto, stopCamera } from './js/camera.js';
+    import { handleSubscribe } from './js/subscribe.js';
+    
+    // Initialize Sans UI
+    initialize();
+    
+    // Load the navbar
+    fetch('../common/navbar.html')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('navbar-container').innerHTML = html;
+        
+        // Set active nav link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === '../camera-subscribe-example/index.html') {
+            link.classList.add('active');
+          }
+        });
+        
+        // Continue with initialization
+        initPage();
+      });
+    
+    function initPage() {
+      // Display platform information
+      const platformInfo = getPlatformInfo();
+      document.getElementById('platform-output').textContent = 
+        JSON.stringify(platformInfo, null, 2);
+      
+      // Set up camera buttons
+      const startCameraButton = document.getElementById('start-camera');
+      const takePhotoButton = document.getElementById('take-photo');
+      const stopCameraButton = document.getElementById('stop-camera');
+      
+      startCameraButton.addEventListener('click', async () => {
+        try {
+          await initCamera();
+          startCameraButton.disabled = true;
+          takePhotoButton.disabled = false;
+          stopCameraButton.disabled = false;
+          document.getElementById('camera-output').textContent = 'Camera started successfully';
+        } catch (error) {
+          document.getElementById('camera-output').textContent = `Error starting camera: ${error.message}`;
+        }
+      });
+      
+      takePhotoButton.addEventListener('click', () => {
+        try {
+          takePhoto();
+          document.getElementById('camera-output').textContent = 'Photo taken successfully';
+          document.getElementById('photo-container').style.display = 'block';
+        } catch (error) {
+          document.getElementById('camera-output').textContent = `Error taking photo: ${error.message}`;
+        }
+      });
+      
+      stopCameraButton.addEventListener('click', () => {
+        try {
+          stopCamera();
+          startCameraButton.disabled = false;
+          takePhotoButton.disabled = true;
+          stopCameraButton.disabled = true;
+          document.getElementById('camera-output').textContent = 'Camera stopped';
+        } catch (error) {
+          document.getElementById('camera-output').textContent = `Error stopping camera: ${error.message}`;
+        }
+      });
+      
+      // Set up subscription form
+      const subscribeForm = document.getElementById('subscribe-form');
+      subscribeForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const name = document.getElementById('name').value;
+        const terms = document.getElementById('terms').checked;
+        
+        try {
+          const result = await handleSubscribe({ email, name, terms });
+          document.getElementById('subscribe-output').textContent = `Subscription successful: ${result.message}`;
+        } catch (error) {
+          document.getElementById('subscribe-output').textContent = `Subscription error: ${error.message}`;
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans UI - Desktop Example (NodeGUI)</title>
+  <link rel="icon" type="image/png" href="../../favicon.png">
+  <link rel="stylesheet" href="../common/styles.css">
+</head>
+<body>
+  <div class="layout-container">
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title">Desktop Example (NodeGUI)</h1>
+        <p class="page-description">
+          This example demonstrates how Sans UI uses NodeGUI to render native desktop UI components on Windows, macOS, and Linux.
+        </p>
+      </header>
+      
+      <section class="platform-info">
+        <h2>Platform Information</h2>
+        <pre id="platform-output">Loading platform information...</pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>NodeGUI Integration</h2>
+        <p>
+          Sans UI uses NodeGUI to render native desktop UI components. NodeGUI is a library for building
+          native desktop applications with JavaScript and CSS-like styling using Qt.
+        </p>
+        <p>
+          When running on a desktop platform (Windows, macOS, or Linux), Sans UI automatically uses
+          the NodeGUI adapter to render UI components as native Qt widgets.
+        </p>
+        <div class="component-row" id="desktop-components"></div>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Qt Widget Mapping</h2>
+        <p>
+          Sans UI maps web components to Qt widgets as follows:
+        </p>
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+          <thead>
+            <tr style="background-color: #f0f0f0;">
+              <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Sans UI Component</th>
+              <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Qt Widget</th>
+              <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-button&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>QPushButton</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;">Command button</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-textbox&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>QLineEdit</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;">Single-line text input</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-label&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>QLabel</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;">Text label</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-container&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>QWidget</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;">Container for other widgets</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-list&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>QListWidget</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;">List of items</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>&lt;sans-image&gt;</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;"><code>QPixmap</code></td>
+              <td style="padding: 10px; border: 1px solid #ddd;">Image display</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Desktop Adapter Implementation</h2>
+        <p>
+          The <code>DesktopAdapter</code> class in Sans UI provides the bridge between web components and Qt widgets:
+        </p>
+        <pre><code>class DesktopAdapter {
+  constructor(options = {}) {
+    this.options = options;
+    this.rootWidget = null;
+    this.widgets = new Map();
+    this.eventHandlers = new Map();
+    
+    // Initialize root widget if NodeGUI is available
+    if (QWidget) {
+      this.rootWidget = new QWidget();
+      this.rootWidget.setLayout(new QBoxLayout(Direction.TopToBottom));
+    }
+  }
+
+  createElement(elementType, props = {}) {
+    // Check if NodeGUI is available
+    if (!QWidget) {
+      return this._createFallbackElement(elementType, props);
+    }
+
+    const WidgetClass = COMPONENT_MAP[elementType.toLowerCase()] || QWidget;
+    const widget = new WidgetClass();
+    
+    // Apply initial properties
+    this.updateElement(widget, props);
+    
+    return widget;
+  }
+
+  // ... other methods
+}</code></pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Running on Desktop</h2>
+        <p>
+          To run a Sans UI application as a native desktop application:
+        </p>
+        <ol>
+          <li>Install NodeGUI: <code>npm install @nodegui/nodegui</code></li>
+          <li>Create a Sans UI application</li>
+          <li>Run with Node.js: <code>node app.js</code></li>
+        </ol>
+        <p>
+          The application will automatically use the NodeGUI adapter when running on a desktop platform.
+        </p>
+      </section>
+    </main>
+  </div>
+  
+  <script type="module">
+    // Import Sans UI components
+    import { 
+      initialize, 
+      getPlatformInfo, 
+      createButton,
+      createContainer,
+      getNativeUI 
+    } from '../../src/index.js';
+    
+    // Initialize Sans UI
+    initialize();
+    
+    // Load the navbar
+    fetch('../common/navbar.html')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('navbar-container').innerHTML = html;
+        
+        // Set active nav link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === '../desktop-example/index.html') {
+            link.classList.add('active');
+          }
+        });
+        
+        // Continue with initialization
+        initPage();
+      });
+    
+    function initPage() {
+      // Display platform information
+      const platformInfo = getPlatformInfo();
+      document.getElementById('platform-output').textContent = 
+        JSON.stringify(platformInfo, null, 2);
+      
+      // Get the native UI adapter
+      const nativeUI = getNativeUI();
+      
+      // Create desktop components example
+      const desktopContainer = document.getElementById('desktop-components');
+      
+      // Create a container with Qt-like styling
+      const container = createContainer({
+        style: 'padding: 20px; background-color: #f0f0f0; border: 1px solid #ddd; border-radius: 4px;'
+      });
+      
+      // Create buttons with different styles
+      const primaryButton = createButton({
+        label: 'QPushButton',
+        type: 'primary'
+      });
+      
+      const secondaryButton = createButton({
+        label: 'Disabled Button',
+        type: 'secondary',
+        disabled: true
+      });
+      
+      // Add components to container
+      nativeUI.appendChild(container, primaryButton);
+      nativeUI.appendChild(container, secondaryButton);
+      
+      // Add container to page
+      desktopContainer.appendChild(container);
+      
+      // Add event handler
+      nativeUI.setEventHandler(primaryButton, 'click', () => {
+        alert('Button clicked! In a real desktop app, this would use a native Qt dialog.');
+      });
+    }
+  </script>
+</body>
+</html>

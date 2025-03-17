@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans UI - Container Component</title>
+  <link rel="icon" type="image/png" href="../../favicon.png">
+  <link rel="stylesheet" href="../common/styles.css">
+  <style>
+    /* Custom styles for this example */
+    .box {
+      padding: 20px;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+    
+    .primary-bg {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .secondary-bg {
+      background-color: var(--secondary-color);
+      color: var(--text-color);
+    }
+    
+    .flex-container {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .flex-item {
+      flex: 1;
+      padding: 15px;
+      background-color: var(--secondary-color);
+      border-radius: 4px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="layout-container">
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title">Container Component</h1>
+        <p class="page-description">
+          The Container component provides a flexible way to create layout containers across all platforms.
+        </p>
+      </header>
+      
+      <section class="platform-info">
+        <h2>Platform Information</h2>
+        <pre id="platform-output">Loading platform information...</pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Basic Container</h2>
+        <p>Create a simple container with custom styling:</p>
+        <div id="basic-container"></div>
+        
+        <pre><code>import { createContainer } from '@profullstackinc/sans-ui';
+
+const container = createContainer({
+  style: 'padding: 20px; border-radius: 8px; background-color: #4a56e2; color: white;'
+});
+
+container.textContent = 'This is a basic Sans UI Container component with custom styling';
+document.getElementById('basic-container').appendChild(container);</code></pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Container with Attributes</h2>
+        <p>Containers can have custom attributes for accessibility and more:</p>
+        <div id="custom-container"></div>
+        
+        <pre><code>import { createContainer } from '@profullstackinc/sans-ui';
+
+const container = createContainer({
+  style: 'padding: 20px; border-radius: 8px; background-color: #e2e8f0; color: #1a202c;',
+  attributes: {
+    role: 'region',
+    'aria-label': 'Example region'
+  }
+});
+
+container.textContent = 'This container has custom attributes like role and aria-label';
+document.getElementById('custom-container').appendChild(container);</code></pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Nested Containers</h2>
+        <p>Containers can be nested to create complex layouts:</p>
+        <div id="nested-container"></div>
+        
+        <pre><code>import { createContainer, getNativeUI } from '@profullstackinc/sans-ui';
+
+const parentContainer = createContainer({
+  style: 'display: flex; gap: 10px;'
+});
+
+for (let i = 1; i <= 3; i++) {
+  const childContainer = createContainer({
+    style: 'flex: 1; padding: 15px; background-color: #e2e8f0; border-radius: 4px; text-align: center;'
+  });
+  childContainer.textContent = `Item ${i}`;
+  getNativeUI().appendChild(parentContainer, childContainer);
+}
+
+document.getElementById('nested-container').appendChild(parentContainer);</code></pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Event Handling</h2>
+        <p>Containers can respond to user interactions:</p>
+        <div id="event-container"></div>
+        <div id="output" class="output">Click the container to see the result</div>
+        
+        <pre><code>import { createContainer, getNativeUI } from '@profullstackinc/sans-ui';
+
+const container = createContainer({
+  style: 'padding: 20px; border-radius: 8px; background-color: #e2e8f0; color: #1a202c; cursor: pointer;'
+});
+
+container.textContent = 'Click me to see an event in action';
+
+getNativeUI().setEventHandler(container, 'click', () => {
+  document.getElementById('output').textContent = 
+    'Container clicked at: ' + new Date().toLocaleTimeString();
+});
+
+document.getElementById('event-container').appendChild(container);</code></pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Platform-Specific Rendering</h2>
+        <p>
+          The Container component renders differently on each platform:
+        </p>
+        <ul>
+          <li><strong>Web:</strong> Renders as a styled HTML div element</li>
+          <li><strong>Desktop:</strong> Renders as a native QWidget (Qt) via NodeGUI</li>
+          <li><strong>Mobile:</strong> Renders as a native StackLayout via NativeScript</li>
+        </ul>
+        <p>
+          This ensures that your containers look and feel native on each platform while maintaining a consistent API.
+        </p>
+      </section>
+    </main>
+  </div>
+  
+  <script type="module">
+    // Import Sans UI components
+    import { 
+      initialize, 
+      getPlatformInfo, 
+      createContainer, 
+      getNativeUI 
+    } from '../../src/index.js';
+    
+    // Initialize Sans UI
+    initialize();
+    
+    // Load the navbar
+    fetch('../common/navbar.html')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('navbar-container').innerHTML = html;
+        
+        // Set active nav link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === '../div/div.html') {
+            link.classList.add('active');
+          }
+        });
+        
+        // Continue with initialization
+        initPage();
+      });
+    
+    function initPage() {
+      // Display platform information
+      const platformInfo = getPlatformInfo();
+      document.getElementById('platform-output').textContent = 
+        JSON.stringify(platformInfo, null, 2);
+      
+      // Get the native UI adapter
+      const nativeUI = getNativeUI();
+      
+      // Create basic container
+      const basicContainer = createContainer({
+        style: 'padding: 20px; border-radius: 8px; background-color: #4a56e2; color: white;'
+      });
+      
+      basicContainer.textContent = 'This is a basic Sans UI Container component with custom styling';
+      document.getElementById('basic-container').appendChild(basicContainer);
+      
+      // Create container with attributes
+      const customContainer = createContainer({
+        style: 'padding: 20px; border-radius: 8px; background-color: #e2e8f0; color: #1a202c;',
+        attributes: {
+          role: 'region',
+          'aria-label': 'Example region'
+        }
+      });
+      
+      customContainer.textContent = 'This container has custom attributes like role and aria-label';
+      document.getElementById('custom-container').appendChild(customContainer);
+      
+      // Create nested containers
+      const parentContainer = createContainer({
+        style: 'display: flex; gap: 10px;'
+      });
+      
+      for (let i = 1; i <= 3; i++) {
+        const childContainer = createContainer({
+          style: 'flex: 1; padding: 15px; background-color: #e2e8f0; border-radius: 4px; text-align: center;'
+        });
+        childContainer.textContent = `Item ${i}`;
+        nativeUI.appendChild(parentContainer, childContainer);
+      }
+      
+      document.getElementById('nested-container').appendChild(parentContainer);
+      
+      // Create event handling container
+      const eventContainer = createContainer({
+        style: 'padding: 20px; border-radius: 8px; background-color: #e2e8f0; color: #1a202c; cursor: pointer;'
+      });
+      
+      eventContainer.textContent = 'Click me to see an event in action';
+      
+      nativeUI.setEventHandler(eventContainer, 'click', () => {
+        document.getElementById('output').textContent = 
+          'Container clicked at: ' + new Date().toLocaleTimeString();
+      });
+      
+      document.getElementById('event-container').appendChild(eventContainer);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans UI - UI Elements</title>
+  <link rel="icon" type="image/png" href="../../favicon.png">
+  <link rel="stylesheet" href="../common/styles.css">
+  <style>
+    .element-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+    
+    .element-card {
+      background-color: white;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .element-card h3 {
+      margin-top: 0;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .element-preview {
+      margin-bottom: 15px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .element-code {
+      background-color: #f5f5f5;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 14px;
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="layout-container">
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title">UI Elements</h1>
+        <p class="page-description">
+          This page showcases all the UI elements available in Sans UI, rendered natively on each platform.
+        </p>
+      </header>
+      
+      <section class="platform-info">
+        <h2>Platform Information</h2>
+        <pre id="platform-output">Loading platform information...</pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Basic Elements</h2>
+        <p>
+          These are the fundamental UI elements that form the building blocks of your application.
+        </p>
+        
+        <div class="element-grid" id="basic-elements">
+          <!-- Elements will be created dynamically -->
+        </div>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Form Elements</h2>
+        <p>
+          These elements are used for user input and form interactions.
+        </p>
+        
+        <div class="element-grid" id="form-elements">
+          <!-- Elements will be created dynamically -->
+        </div>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Layout Elements</h2>
+        <p>
+          These elements help structure and organize your UI.
+        </p>
+        
+        <div class="element-grid" id="layout-elements">
+          <!-- Elements will be created dynamically -->
+        </div>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Platform-Specific Rendering</h2>
+        <p>
+          Each UI element is rendered differently depending on the platform:
+        </p>
+        <ul>
+          <li><strong>Web:</strong> Rendered as styled HTML elements</li>
+          <li><strong>Desktop:</strong> Rendered as native Qt widgets via NodeGUI</li>
+          <li><strong>Mobile:</strong> Rendered as native UIKit/Android views via NativeScript</li>
+        </ul>
+        <p>
+          This ensures that your UI looks and feels native on each platform while maintaining a consistent API.
+        </p>
+      </section>
+    </main>
+  </div>
+  
+  <script type="module">
+    // Import Sans UI components
+    import { 
+      initialize, 
+      getPlatformInfo, 
+      createButton,
+      createContainer,
+      getNativeUI 
+    } from '../../src/index.js';
+    
+    // Initialize Sans UI
+    initialize();
+    
+    // Load the navbar
+    fetch('../common/navbar.html')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('navbar-container').innerHTML = html;
+        
+        // Set active nav link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === '../ui-elements/index.html') {
+            link.classList.add('active');
+          }
+        });
+        
+        // Continue with initialization
+        initPage();
+      });
+    
+    function initPage() {
+      // Display platform information
+      const platformInfo = getPlatformInfo();
+      document.getElementById('platform-output').textContent = 
+        JSON.stringify(platformInfo, null, 2);
+      
+      // Get the native UI adapter
+      const nativeUI = getNativeUI();
+      
+      // Create basic elements
+      createElementCards('basic-elements', [
+        {
+          name: 'Button',
+          create: () => createButton({ label: 'Click Me', type: 'primary' }),
+          code: '<sans-button type="primary">Click Me</sans-button>'
+        },
+        {
+          name: 'Secondary Button',
+          create: () => createButton({ label: 'Secondary', type: 'secondary' }),
+          code: '<sans-button type="secondary">Secondary</sans-button>'
+        },
+        {
+          name: 'Danger Button',
+          create: () => createButton({ label: 'Danger', type: 'danger' }),
+          code: '<sans-button type="danger">Danger</sans-button>'
+        },
+        {
+          name: 'Disabled Button',
+          create: () => createButton({ label: 'Disabled', disabled: true }),
+          code: '<sans-button disabled>Disabled</sans-button>'
+        }
+      ]);
+      
+      // Create form elements
+      createElementCards('form-elements', [
+        {
+          name: 'Text Input',
+          create: () => {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = 'Enter text';
+            return input;
+          },
+          code: '<sans-textbox placeholder="Enter text"></sans-textbox>'
+        },
+        {
+          name: 'Checkbox',
+          create: () => {
+            const label = document.createElement('label');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(' Check me'));
+            return label;
+          },
+          code: '<sans-checkbox>Check me</sans-checkbox>'
+        },
+        {
+          name: 'Select',
+          create: () => {
+            const select = document.createElement('select');
+            ['Option 1', 'Option 2', 'Option 3'].forEach(text => {
+              const option = document.createElement('option');
+              option.text = text;
+              select.add(option);
+            });
+            return select;
+          },
+          code: '<sans-select>\n  <sans-option>Option 1</sans-option>\n  <sans-option>Option 2</sans-option>\n  <sans-option>Option 3</sans-option>\n</sans-select>'
+        }
+      ]);
+      
+      // Create layout elements
+      createElementCards('layout-elements', [
+        {
+          name: 'Container',
+          create: () => {
+            const container = createContainer({
+              style: 'padding: 10px; background-color: #f0f0f0; border-radius: 4px;'
+            });
+            container.textContent = 'Container';
+            return container;
+          },
+          code: '<sans-container style="padding: 10px; background-color: #f0f0f0; border-radius: 4px;">Container</sans-container>'
+        },
+        {
+          name: 'Flex Container',
+          create: () => {
+            const container = createContainer({
+              style: 'display: flex; gap: 5px; justify-content: center;'
+            });
+            
+            for (let i = 1; i <= 3; i++) {
+              const item = createContainer({
+                style: 'padding: 5px; background-color: #e2e8f0; border-radius: 4px;'
+              });
+              item.textContent = `Item ${i}`;
+              nativeUI.appendChild(container, item);
+            }
+            
+            return container;
+          },
+          code: '<sans-container style="display: flex; gap: 5px; justify-content: center;">\n  <sans-container style="padding: 5px; background-color: #e2e8f0; border-radius: 4px;">Item 1</sans-container>\n  <sans-container style="padding: 5px; background-color: #e2e8f0; border-radius: 4px;">Item 2</sans-container>\n  <sans-container style="padding: 5px; background-color: #e2e8f0; border-radius: 4px;">Item 3</sans-container>\n</sans-container>'
+        }
+      ]);
+    }
+    
+    function createElementCards(containerId, elements) {
+      const container = document.getElementById(containerId);
+      const nativeUI = getNativeUI();
+      
+      elements.forEach(element => {
+        // Create card
+        const card = document.createElement('div');
+        card.className = 'element-card';
+        
+        // Add title
+        const title = document.createElement('h3');
+        title.textContent = element.name;
+        card.appendChild(title);
+        
+        // Add preview
+        const preview = document.createElement('div');
+        preview.className = 'element-preview';
+        preview.appendChild(element.create());
+        card.appendChild(preview);
+        
+        // Add code
+        const code = document.createElement('div');
+        code.className = 'element-code';
+        code.textContent = element.code;
+        card.appendChild(code);
+        
+        // Add card to container
+        container.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>

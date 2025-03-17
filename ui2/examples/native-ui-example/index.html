@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans UI - Native UI Example</title>
+  <link rel="icon" type="image/png" href="../../favicon.png">
+  <link rel="stylesheet" href="../common/styles.css">
+</head>
+<body>
+  <div class="layout-container">
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title">Native UI Architecture</h1>
+        <p class="page-description">
+          This example demonstrates the Sans UI native UI architecture that works across web, desktop, and mobile platforms.
+        </p>
+      </header>
+      
+      <section class="platform-info">
+        <h2>Platform Information</h2>
+        <pre id="platform-output">Loading platform information...</pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Web Component Example</h2>
+        <p>This example demonstrates the <code>&lt;sans-button&gt;</code> web component:</p>
+        
+        <div class="component-row">
+          <sans-button type="primary">Primary Button</sans-button>
+          <sans-button type="secondary">Secondary Button</sans-button>
+          <sans-button type="danger">Danger Button</sans-button>
+          <sans-button disabled>Disabled Button</sans-button>
+        </div>
+        
+        <div class="output" id="web-component-output">Click a button to see events</div>
+        
+        <pre><code>&lt;sans-button type="primary"&gt;Primary Button&lt;/sans-button&gt;
+&lt;sans-button type="secondary"&gt;Secondary Button&lt;/sans-button&gt;
+&lt;sans-button type="danger"&gt;Danger Button&lt;/sans-button&gt;
+&lt;sans-button disabled&gt;Disabled Button&lt;/sans-button&gt;</code></pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>JavaScript API Example</h2>
+        <p>This example demonstrates creating UI elements using the JavaScript API:</p>
+        
+        <div id="js-container" class="component-row"></div>
+        
+        <div class="output" id="js-output">Click a button to see events</div>
+        
+        <pre><code>import { createButton, getNativeUI } from '@profullstackinc/sans-ui';
+
+const button = createButton({
+  label: 'API Button',
+  type: 'primary'
+});
+
+const nativeUI = getNativeUI();
+nativeUI.setEventHandler(button, 'click', () => {
+  console.log('Button clicked!');
+});
+
+document.getElementById('container').appendChild(button);</code></pre>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Architecture Overview</h2>
+        <p>
+          The Sans UI architecture consists of several key components:
+        </p>
+        <ul>
+          <li>
+            <strong>Platform Detection</strong>
+            <p>Automatically detects whether the app is running on desktop, mobile, or web.</p>
+          </li>
+          <li>
+            <strong>Native UI Adapters</strong>
+            <p>Platform-specific adapters that map web components to native UI widgets:</p>
+            <ul>
+              <li><strong>DesktopAdapter:</strong> Uses NodeGUI/Qt for Windows, macOS, and Linux</li>
+              <li><strong>MobileAdapter:</strong> Uses NativeScript for iOS and Android</li>
+              <li><strong>WebAdapter:</strong> Fallback for web browsers</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Component Factory</strong>
+            <p>Creates UI components appropriate for the current platform.</p>
+          </li>
+          <li>
+            <strong>Event System</strong>
+            <p>Maps web-like events to platform-specific events.</p>
+          </li>
+        </ul>
+      </section>
+      
+      <section class="demo-section">
+        <h2>Benefits</h2>
+        <p>
+          This architecture provides several benefits:
+        </p>
+        <ul>
+          <li><strong>Write Once, Run Anywhere:</strong> Use the same code across all platforms</li>
+          <li><strong>Native Performance:</strong> Better performance than WebView-based solutions</li>
+          <li><strong>Native Look and Feel:</strong> UI components look and behave like native widgets</li>
+          <li><strong>Familiar API:</strong> Web Components and Svelte provide a familiar developer experience</li>
+          <li><strong>Smaller Bundle Size:</strong> No need for a full browser engine</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+  
+  <script type="module">
+    // Import Sans UI components
+    import { 
+      initialize, 
+      getPlatformInfo, 
+      createButton, 
+      getNativeUI 
+    } from '../../src/index.js';
+    
+    // Initialize Sans UI
+    initialize();
+    
+    // Load the navbar
+    fetch('../common/navbar.html')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('navbar-container').innerHTML = html;
+        
+        // Set active nav link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === '../native-ui-example/index.html') {
+            link.classList.add('active');
+          }
+        });
+        
+        // Continue with initialization
+        initPage();
+      });
+    
+    function initPage() {
+      // Display platform information
+      const platformInfo = getPlatformInfo();
+      document.getElementById('platform-output').textContent = 
+        JSON.stringify(platformInfo, null, 2);
+      
+      // Set up Web Component example
+      document.querySelectorAll('sans-button').forEach(button => {
+        button.addEventListener('button-click', (e) => {
+          document.getElementById('web-component-output').textContent = 
+            `Button clicked: ${e.target.textContent}\nEvent: ${JSON.stringify(e.detail, null, 2)}`;
+        });
+      });
+      
+      // Get the native UI adapter
+      const nativeUI = getNativeUI();
+      
+      // Create JavaScript API example
+      const jsContainer = document.getElementById('js-container');
+      
+      // Create buttons using the JavaScript API
+      const buttons = [
+        { label: 'Primary JS Button', type: 'primary' },
+        { label: 'Secondary JS Button', type: 'secondary' },
+        { label: 'Danger JS Button', type: 'danger' }
+      ];
+      
+      buttons.forEach(buttonConfig => {
+        const button = createButton(buttonConfig);
+        jsContainer.appendChild(button);
+        
+        nativeUI.setEventHandler(button, 'click', () => {
+          document.getElementById('js-output').textContent = 
+            `Button clicked: ${buttonConfig.label}\nType: ${buttonConfig.type}`;
+        });
+      });
+    }
+  </script>
+</body>
+</html>
