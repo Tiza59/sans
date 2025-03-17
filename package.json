@@ -10,7 +10,7 @@
     "db"
   ],
   "scripts": {
-    "build": "pnpm --filter ./ui build",
+    "build": "pnpm --filter ./ui build",  
     "test": "pnpm --filter ./ui test",
     "lint": "pnpm --filter ./ui lint",
     "format": "pnpm --filter ./ui format"
