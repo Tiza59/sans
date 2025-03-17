@@ -69,13 +69,13 @@ Sans UI provides a standard UI schema that maps to both NodeGUI and NativeScript
 ## Installation
 
 ```bash
-npm install @profullstackinc/sans-ui
+npm install @profullstack/sans-ui
 ```
 
 Or with pnpm:
 
 ```bash
-pnpm add @profullstackinc/sans-ui
+pnpm add @profullstack/sans-ui
 ```
 
 ## Usage
@@ -96,7 +96,7 @@ pnpm add @profullstackinc/sans-ui
 
 ```svelte
 <script>
-  import { Button } from '@profullstackinc/sans-ui';
+  import { Button } from '@profullstack/sans-ui';
   
   function handleClick() {
     console.log('Button clicked!');
@@ -109,7 +109,7 @@ pnpm add @profullstackinc/sans-ui
 ### JavaScript API
 
 ```javascript
-import { createButton, getNativeUI } from '@profullstackinc/sans-ui';
+import { createButton, getNativeUI } from '@profullstack/sans-ui';
 
 const button = createButton({
   label: 'Click Me',

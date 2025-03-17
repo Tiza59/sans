@@ -13,37 +13,22 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # Default values
-VERSION=""
 DRY_RUN=false
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
   case $1 in
-    --version)
-      VERSION="$2"
-      shift 2
-      ;;
     --dry-run)
       DRY_RUN=true
       shift
       ;;
     *)
       echo -e "${RED}Unknown option: $1${NC}"
-      echo "Usage: $0 [--version x.x.x] [--dry-run]"
+      echo "Usage: $0 [--dry-run]"
       exit 1
       ;;
   esac
 done
-
-# Validate version format if provided
-if [ -n "$VERSION" ]; then
-  if ! [[ $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9\.]+)?$ ]]; then
-    echo -e "${RED}Invalid version format: $VERSION${NC}"
-    echo "Version must be in the format x.x.x or x.x.x-suffix"
-    exit 1
-  fi
-  echo -e "${GREEN}Will set version to: $VERSION${NC}"
-fi
 
 if [ "$DRY_RUN" = true ]; then
   echo -e "${YELLOW}DRY RUN MODE: No changes will be published${NC}"
@@ -75,22 +60,15 @@ fi
 update_with_jq() {
   local pkg_dir=$1
   local pkg_name=$2
+  local version=$3
   local tmp_file=$(mktemp)
   
-  if [ -n "$VERSION" ]; then
-    # Update name, version, and publishConfig
-    jq --arg name "@profullstack/sans-$pkg_name" --arg version "$VERSION" '
-      .name = $name | 
-      .version = $version |
-      .publishConfig = {"access": "public"}
-    ' "$pkg_dir/package.json" > "$tmp_file"
-  else
-    # Update only name and publishConfig
-    jq --arg name "@profullstack/sans-$pkg_name" '
-      .name = $name | 
-      .publishConfig = {"access": "public"}
-    ' "$pkg_dir/package.json" > "$tmp_file"
-  fi
+  # Update name, version, and publishConfig
+  jq --arg name "@profullstack/sans-$pkg_name" --arg version "$version" '
+    .name = $name | 
+    .version = $version |
+    .publishConfig = {"access": "public"}
+  ' "$pkg_dir/package.json" > "$tmp_file"
   
   if [ "$DRY_RUN" = false ]; then
     mv "$tmp_file" "$pkg_dir/package.json"
@@ -105,53 +83,33 @@ update_with_jq() {
 update_with_node() {
   local pkg_dir=$1
   local pkg_name=$2
+  local version=$3
   
   if [ "$DRY_RUN" = true ]; then
     echo -e "${YELLOW}Would update $pkg_dir/package.json with:${NC}"
     echo "  \"name\": \"@profullstack/sans-$pkg_name\""
-    if [ -n "$VERSION" ]; then
-      echo "  \"version\": \"$VERSION\""
-    fi
+    echo "  \"version\": \"$version\""
     echo "  \"publishConfig\": { \"access\": \"public\" }"
     return
   fi
   
-  if [ -n "$VERSION" ]; then
-    # Update name, version, and publishConfig
-    node -e "
-      const fs = require('fs');
-      const packagePath = '$pkg_dir/package.json';
-      const pkg = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
-      
-      // Update package name and version
-      pkg.name = '@profullstack/sans-$pkg_name';
-      pkg.version = '$VERSION';
-      
-      // Completely replace publishConfig
-      pkg.publishConfig = {
-        'access': 'public'
-      };
-      
-      fs.writeFileSync(packagePath, JSON.stringify(pkg, null, 2) + '\n');
-    "
-  else
-    # Update only name and publishConfig
-    node -e "
-      const fs = require('fs');
-      const packagePath = '$pkg_dir/package.json';
-      const pkg = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
-      
-      // Update package name
-      pkg.name = '@profullstack/sans-$pkg_name';
-      
-      // Completely replace publishConfig
-      pkg.publishConfig = {
-        'access': 'public'
-      };
-      
-      fs.writeFileSync(packagePath, JSON.stringify(pkg, null, 2) + '\n');
-    "
-  fi
+  # Update name, version, and publishConfig
+  node -e "
+    const fs = require('fs');
+    const packagePath = '$pkg_dir/package.json';
+    const pkg = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+    
+    // Update package name and version
+    pkg.name = '@profullstack/sans-$pkg_name';
+    pkg.version = '$version';
+    
+    // Completely replace publishConfig
+    pkg.publishConfig = {
+      'access': 'public'
+    };
+    
+    fs.writeFileSync(packagePath, JSON.stringify(pkg, null, 2) + '\n');
+  "
 }
 
 # Check if jq is available
@@ -168,6 +126,21 @@ else
     exit 1
   fi
 fi
+
+# Function to get current version from package.json
+get_current_version() {
+  local pkg_dir=$1
+  if command -v jq &> /dev/null; then
+    jq -r '.version' "$pkg_dir/package.json"
+  else
+    node -e "
+      const fs = require('fs');
+      const packagePath = '$pkg_dir/package.json';
+      const pkg = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+      console.log(pkg.version);
+    "
+  fi
+}
 
 # Loop through each package in the packages directory
 for pkg_dir in ./packages/*; do
@@ -193,6 +166,28 @@ for pkg_dir in ./packages/*; do
     continue
   fi
   
+  # Get current version
+  current_version=$(get_current_version "$pkg_dir")
+  echo -e "${GREEN}Current version: $current_version${NC}"
+  
+  # Ask for new version
+  if [ "$DRY_RUN" = false ]; then
+    read -p "Enter version for @profullstack/sans-$pkg_name [$current_version]: " version
+    # Use current version if no input provided
+    version=${version:-$current_version}
+  else
+    # In dry run mode, just use the current version for display
+    version=$current_version
+    echo -e "${YELLOW}Would prompt for version (using current version for demonstration)${NC}"
+  fi
+  
+  # Validate version format
+  if ! [[ $version =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9\.]+)?$ ]]; then
+    echo -e "${RED}Invalid version format: $version${NC}"
+    echo "Version must be in the format x.x.x or x.x.x-suffix"
+    continue
+  fi
+  
   # Check for .npmrc file and handle it
   if [ -f "$pkg_dir/.npmrc" ]; then
     echo -e "${YELLOW}Found .npmrc file in $pkg_name, removing GitHub registry configuration...${NC}"
@@ -212,27 +207,25 @@ for pkg_dir in ./packages/*; do
     fi
   fi
   
-  # Update package.json with correct name, version (if provided), and publishConfig
-  $UPDATE_FUNC "$pkg_dir" "$pkg_name"
+  # Update package.json with correct name, version, and publishConfig
+  $UPDATE_FUNC "$pkg_dir" "$pkg_name" "$version"
   
   echo -e "${GREEN}Updated package name to @profullstack/sans-$pkg_name${NC}"
-  if [ -n "$VERSION" ]; then
-    echo -e "${GREEN}Updated package version to $VERSION${NC}"
-  fi
+  echo -e "${GREEN}Updated package version to $version${NC}"
   
   # Navigate to package directory and publish
   if [ "$DRY_RUN" = false ]; then
     (
       cd "$pkg_dir"
-      echo -e "${GREEN}Publishing @profullstack/sans-$pkg_name...${NC}"
+      echo -e "${GREEN}Publishing @profullstack/sans-$pkg_name@$version...${NC}"
       
       # Ensure we're using the npm registry for this publish command
       pnpm publish --no-git-checks --registry https://registry.npmjs.org/
       
-      echo -e "${GREEN}Successfully published @profullstack/sans-$pkg_name${NC}"
+      echo -e "${GREEN}Successfully published @profullstack/sans-$pkg_name@$version${NC}"
     )
   else
-    echo -e "${YELLOW}Would publish @profullstack/sans-$pkg_name to npm registry${NC}"
+    echo -e "${YELLOW}Would publish @profullstack/sans-$pkg_name@$version to npm registry${NC}"
   fi
 done
 
