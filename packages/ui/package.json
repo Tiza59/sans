@@ -1,5 +1,5 @@
 {
-  "name": "@profullstackinc/sans-ui",
+  "name": "@profullstack/sans-ui",
   "version": "1.0.0",
   "description": "A cross-platform native UI library which supports iOS, Android, Windows, macOS, and Linux using NodeGUI for desktop and NativeScript for mobile. Built with Svelte 4 and web components.",
   "type": "module",
@@ -92,7 +92,6 @@
   },
   "homepage": "https://github.com/profullstack/sans-ui",
   "publishConfig": {
-    "access": "public",
-    "@profullstack:registry": "https://npm.pkg.github.com"
+    "access": "public"
   }
 }

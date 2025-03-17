@@ -38,7 +38,12 @@ update_with_jq() {
   local pkg_name=$2
   local tmp_file=$(mktemp)
   
-  jq --arg name "@profullstack/sans-$pkg_name" '.name = $name | .publishConfig.access = "public" | del(.publishConfig["@profullstack:registry"])' "$pkg_dir/package.json" > "$tmp_file"
+  # Completely replace publishConfig and update the name
+  jq --arg name "@profullstack/sans-$pkg_name" '
+    .name = $name | 
+    .publishConfig = {"access": "public"}
+  ' "$pkg_dir/package.json" > "$tmp_file"
+  
   mv "$tmp_file" "$pkg_dir/package.json"
 }
 
@@ -51,12 +56,15 @@ update_with_node() {
     const fs = require('fs');
     const packagePath = '$pkg_dir/package.json';
     const pkg = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+    
+    // Update package name
     pkg.name = '@profullstack/sans-$pkg_name';
-    pkg.publishConfig = pkg.publishConfig || {};
-    pkg.publishConfig.access = 'public';
-    if (pkg.publishConfig['@profullstack:registry']) {
-      delete pkg.publishConfig['@profullstack:registry'];
-    }
+    
+    // Completely replace publishConfig
+    pkg.publishConfig = {
+      'access': 'public'
+    };
+    
     fs.writeFileSync(packagePath, JSON.stringify(pkg, null, 2) + '\n');
   "
 }
@@ -100,6 +108,20 @@ for pkg_dir in ./packages/*; do
     continue
   fi
   
+  # Check for .npmrc file and handle it
+  if [ -f "$pkg_dir/.npmrc" ]; then
+    echo -e "${YELLOW}Found .npmrc file in $pkg_name, removing GitHub registry configuration...${NC}"
+    # Create a temporary file without the GitHub registry line
+    grep -v "@profullstack:registry=https://npm.pkg.github.com" "$pkg_dir/.npmrc" > "$pkg_dir/.npmrc.tmp" || true
+    # Replace the original .npmrc with the filtered one
+    mv "$pkg_dir/.npmrc.tmp" "$pkg_dir/.npmrc"
+    # If the file is empty, remove it
+    if [ ! -s "$pkg_dir/.npmrc" ]; then
+      rm "$pkg_dir/.npmrc"
+      echo -e "${YELLOW}Removed empty .npmrc file${NC}"
+    fi
+  fi
+  
   # Update package.json with correct name and publishConfig
   $UPDATE_FUNC "$pkg_dir" "$pkg_name"
   
@@ -109,7 +131,10 @@ for pkg_dir in ./packages/*; do
   (
     cd "$pkg_dir"
     echo -e "${GREEN}Publishing @profullstack/sans-$pkg_name...${NC}"
-    pnpm publish --no-git-checks
+    
+    # Ensure we're using the npm registry for this publish command
+    pnpm publish --no-git-checks --registry https://registry.npmjs.org/
+    
     echo -e "${GREEN}Successfully published @profullstack/sans-$pkg_name${NC}"
   )
 done

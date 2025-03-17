@@ -1,7 +1,7 @@
 <p align="center">
-  <img src="../ui/static/logos/ui/logo.sans-ui.white.svg" alt="Sans UI Logo" height="60" style="margin: 2.2rem;" />
-  <img src="../ui/static/logos/api/logo.sans-api.white.svg" alt="Sans API Logo" height="60" style="margin: 2.2rem;" />
-  <img src="../ui/static/logos/db/logo.sans-db.white.svg" alt="Sans DB Logo" height="60" style="margin: 2.2rem;" />
+  <img src="https://raw.githubusercontent.com/profullstack/sans/refs/heads/master/packages/ui/static/logos/ui/logo.sans-ui.white.svg" alt="Sans UI Logo" height="60" style="margin: 2.2rem;" />
+  <img src="https://raw.githubusercontent.com/profullstack/sans/refs/heads/master/packages/api/static/logos/api/logo.sans-api.white.svg" alt="Sans API Logo" height="60" style="margin: 2.2rem;" />
+  <img src="https://raw.githubusercontent.com/profullstack/sans/refs/heads/master/packages/db/static/logos/db/logo.sans-db.white.svg" alt="Sans DB Logo" height="60" style="margin: 2.2rem;" />
 </p>
 
 # Sans DB
