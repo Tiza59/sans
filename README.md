@@ -46,7 +46,7 @@ A cross-platform native application framework with UI, API, and DB components.
 
 ### [Sans UI](./ui/README.md)
 
-A cross-platform native UI library which supports iOS, Android, Windows, macOS, and Linux using WebViewJS, Apple's WKWebView API, and KDE's Qt WebEngine. Built with Svelte 4 and web components.
+A cross-platform native UI library which supports iOS, Android, Windows, macOS and Linux. Built with Svelte 4 and web components.
 
 ### [Sans API](./api/README.md)
 
