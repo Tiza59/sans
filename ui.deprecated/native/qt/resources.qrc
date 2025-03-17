@@ -1,0 +1,6 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/">
+        <!-- This will be populated by qmake with the path to qwebchannel.js -->
+    </qresource>
+</RCC>

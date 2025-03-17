@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans UI - Camera & Subscribe Example</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <sans-div className="app-container">
+    <sans-header>
+      <sans-h1>Sans UI Demo App</sans-h1>
+      <sans-p className="subtitle">Camera Access & Subscription Form</sans-p>
+    </sans-header>
+
+    <sans-main>
+      <sans-section className="camera-section">
+        <sans-h2>Camera Demo</sans-h2>
+        <sans-div className="camera-container">
+          <video id="camera-feed" autoplay playsinline></video>
+          <canvas id="camera-canvas" style="display: none;"></canvas>
+          <sans-div className="camera-controls">
+            <sans-button id="start-camera" type="primary">Start Camera</sans-button>
+            <sans-button id="take-photo" type="secondary" disabled>Take Photo</sans-button>
+            <sans-button id="switch-camera" type="secondary" disabled>Switch Camera</sans-button>
+          </sans-div>
+        </sans-div>
+        <sans-div className="photo-container">
+          <sans-h3>Captured Photos</sans-h3>
+          <sans-div id="photos-gallery" className="photos-gallery"></sans-div>
+        </sans-div>
+      </sans-section>
+
+      <sans-section className="subscribe-section">
+        <sans-h2>Subscribe to Updates</sans-h2>
+        <sans-p>Join our waitlist to be notified when we launch new features!</sans-p>
+        
+        <sans-form id="subscribe-form" className="subscribe-form">
+          <sans-div className="form-group">
+            <sans-label for="name">Name</sans-label>
+            <sans-input type="text" id="name" name="name" placeholder="Your name" required></sans-input>
+          </sans-div>
+          
+          <sans-div className="form-group">
+            <sans-label for="email">Email</sans-label>
+            <sans-input type="email" id="email" name="email" placeholder="Your email address" required></sans-input>
+          </sans-div>
+          
+          <sans-div className="form-group checkbox-group">
+            <sans-input type="checkbox" id="consent" name="consent" required></sans-input>
+            <sans-label for="consent">I agree to receive updates about Sans UI</sans-label>
+          </sans-div>
+          
+          <sans-button type="primary" id="subscribe-button">Subscribe</sans-button>
+        </sans-form>
+        
+        <sans-div id="subscription-success" className="success-message" style="display: none;">
+          <sans-h3>Thank you for subscribing!</sans-h3>
+          <sans-p>We'll keep you updated on our progress.</sans-p>
+        </sans-div>
+      </sans-section>
+    </sans-main>
+
+    <sans-footer>
+      <sans-p>Built with <sans-a href="https://github.com/profullstack/sans-ui" target="_blank">Sans UI</sans-a> - Cross-platform native UI library</sans-p>
+      <sans-p>Supports iOS, Android, Windows, macOS, Linux, Qt, and GTK</sans-p>
+    </sans-footer>
+  </sans-div>
+
+  <!-- Import the Sans UI components -->
+  <script type="module">
+    // Import the Sans UI components
+    import '../../src/components/html5/DivComponent.js';
+    import '../../src/components/html5/HeaderComponent.js';
+    import '../../src/components/html5/MainComponent.js';
+    import '../../src/components/html5/SectionComponent.js';
+    import '../../src/components/html5/FooterComponent.js';
+    import '../../src/components/html5/H1Component.js';
+    import '../../src/components/html5/ButtonComponent.js';
+    
+    // Import the component abstraction layer
+    import '../../src/lib/components/ComponentAdapter.js';
+    import '../../src/lib/components/ComponentFactory.js';
+  </script>
+  
+  <!-- Import our app scripts -->
+  <script src="js/camera.js"></script>
+  <script src="js/subscribe.js"></script>
+  <script src="js/sync-service.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

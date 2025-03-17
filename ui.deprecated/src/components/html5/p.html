@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans Paragraph Web Component</title>
+  <style>
+    /* Default styles for the demo page */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1, h2 {
+      color: #333;
+    }
+    
+    .demo-section {
+      margin: 20px 0;
+      padding: 20px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+    }
+
+    .example {
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sans Paragraph Web Component</h1>
+  
+  <div class="demo-section">
+    <h2>Basic Usage</h2>
+    <sans-p class="example" style="color: #333; font-size: 16px; line-height: 1.5;">
+      This is a basic paragraph component with custom styling
+    </sans-p>
+  </div>
+  
+  <div class="demo-section">
+    <h2>With Click Handler</h2>
+    <sans-p id="clickableParagraph" class="example" style="color: #0277bd; font-size: 16px; cursor: pointer;">
+      Click me to see an event in action
+    </sans-p>
+    <p id="clickResult">Click count: 0</p>
+  </div>
+  
+  <div class="demo-section">
+    <h2>With Accessibility Attributes</h2>
+    <sans-p 
+      role="note"
+      aria-label="Important information"
+      class="example"
+      style="color: #d32f2f; font-weight: bold;"
+    >
+      This paragraph has accessibility attributes
+    </sans-p>
+  </div>
+  
+  <script>
+    // Define the SansP web component
+    class SansP extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+      
+      static get observedAttributes() {
+        return ['id', 'class', 'style', 'role', 'tabindex', 'aria-label', 'data-testid'];
+      }
+      
+      connectedCallback() {
+        this.render();
+        this.p = this.shadowRoot.querySelector('p');
+        this.p.addEventListener('click', (e) => {
+          // Dispatch a custom event
+          this.dispatchEvent(new CustomEvent('p-click', {
+            bubbles: true,
+            composed: true,
+            detail: { source: this }
+          }));
+        });
+      }
+      
+      attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue === newValue) return;
+        
+        if (this.shadowRoot) {
+          this.render();
+        }
+      }
+      
+      render() {
+        const id = this.getAttribute('id') || '';
+        const className = this.getAttribute('class') || '';
+        const style = this.getAttribute('style') || '';
+        const role = this.getAttribute('role') || '';
+        const tabindex = this.getAttribute('tabindex') || '';
+        const ariaLabel = this.getAttribute('aria-label') || '';
+        const dataTestid = this.getAttribute('data-testid') || '';
+        
+        this.shadowRoot.innerHTML = `
+          <style>
+            :host {
+              display: block;
+            }
+            
+            p {
+              margin: 0.5em 0;
+              display: block;
+            }
+          </style>
+          <p 
+            ${id ? `id="${id}"` : ''}
+            ${className ? `class="${className}"` : ''}
+            ${style ? `style="${style}"` : ''}
+            ${role ? `role="${role}"` : ''}
+            ${tabindex ? `tabindex="${tabindex}"` : ''}
+            ${ariaLabel ? `aria-label="${ariaLabel}"` : ''}
+            ${dataTestid ? `data-testid="${dataTestid}"` : ''}
+          >
+            <slot></slot>
+          </p>
+        `;
+      }
+    }
+
+    // Register the custom element
+    customElements.define('sans-p', SansP);
+    
+    // Demo click counter
+    document.addEventListener('DOMContentLoaded', () => {
+      const clickableParagraph = document.getElementById('clickableParagraph');
+      const clickResult = document.getElementById('clickResult');
+      let clickCount = 0;
+      
+      clickableParagraph.addEventListener('p-click', () => {
+        clickCount++;
+        clickResult.textContent = `Click count: ${clickCount}`;
+      });
+    });
+  </script>
+</body>
+</html>

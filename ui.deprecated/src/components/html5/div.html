@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans Div Web Component</title>
+  <style>
+    /* Default styles for the demo page */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1, h2 {
+      color: #333;
+    }
+    
+    .demo-section {
+      margin: 20px 0;
+      padding: 20px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+    }
+
+    .example {
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sans Div Web Component</h1>
+  
+  <div class="demo-section">
+    <h2>Basic Usage</h2>
+    <sans-div class="example" style="padding: 20px; background-color: #f0f0f0; border-radius: 4px;">
+      <p>This is a basic div component with custom styling</p>
+    </sans-div>
+  </div>
+  
+  <div class="demo-section">
+    <h2>With Click Handler</h2>
+    <sans-div id="clickableDiv" class="example" style="padding: 20px; background-color: #e0f7fa; border-radius: 4px; cursor: pointer;">
+      <p>Click me to see an event in action</p>
+    </sans-div>
+    <p id="clickResult">Click count: 0</p>
+  </div>
+  
+  <div class="demo-section">
+    <h2>With Accessibility Attributes</h2>
+    <sans-div 
+      role="button"
+      tabindex="0"
+      aria-label="Accessible div example"
+      class="example"
+      style="padding: 20px; background-color: #f9fbe7; border-radius: 4px;"
+    >
+      <p>This div has accessibility attributes</p>
+    </sans-div>
+  </div>
+  
+  <script>
+    // Define the SansDiv web component
+    class SansDiv extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+      
+      static get observedAttributes() {
+        return ['id', 'class', 'style', 'role', 'tabindex', 'aria-label', 'data-testid'];
+      }
+      
+      connectedCallback() {
+        this.render();
+        this.div = this.shadowRoot.querySelector('div');
+        this.div.addEventListener('click', (e) => {
+          // Dispatch a custom event
+          this.dispatchEvent(new CustomEvent('div-click', {
+            bubbles: true,
+            composed: true,
+            detail: { source: this }
+          }));
+        });
+      }
+      
+      attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue === newValue) return;
+        
+        if (this.shadowRoot) {
+          this.render();
+        }
+      }
+      
+      render() {
+        const id = this.getAttribute('id') || '';
+        const className = this.getAttribute('class') || '';
+        const style = this.getAttribute('style') || '';
+        const role = this.getAttribute('role') || '';
+        const tabindex = this.getAttribute('tabindex') || '';
+        const ariaLabel = this.getAttribute('aria-label') || '';
+        const dataTestid = this.getAttribute('data-testid') || '';
+        
+        this.shadowRoot.innerHTML = `
+          <style>
+            :host {
+              display: block;
+            }
+            
+            div {
+              display: block;
+            }
+          </style>
+          <div 
+            ${id ? `id="${id}"` : ''}
+            ${className ? `class="${className}"` : ''}
+            ${style ? `style="${style}"` : ''}
+            ${role ? `role="${role}"` : ''}
+            ${tabindex ? `tabindex="${tabindex}"` : ''}
+            ${ariaLabel ? `aria-label="${ariaLabel}"` : ''}
+            ${dataTestid ? `data-testid="${dataTestid}"` : ''}
+          >
+            <slot></slot>
+          </div>
+        `;
+      }
+    }
+
+    // Register the custom element
+    customElements.define('sans-div', SansDiv);
+    
+    // Demo click counter
+    document.addEventListener('DOMContentLoaded', () => {
+      const clickableDiv = document.getElementById('clickableDiv');
+      const clickResult = document.getElementById('clickResult');
+      let clickCount = 0;
+      
+      clickableDiv.addEventListener('div-click', () => {
+        clickCount++;
+        clickResult.textContent = `Click count: ${clickCount}`;
+      });
+    });
+  </script>
+</body>
+</html>

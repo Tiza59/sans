@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans Anchor Web Component</title>
+  <style>
+    /* Default styles for the demo page */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1, h2 {
+      color: #333;
+    }
+    
+    .demo-section {
+      margin: 20px 0;
+      padding: 20px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+    }
+
+    .example {
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sans Anchor Web Component</h1>
+  
+  <div class="demo-section">
+    <h2>Basic Usage</h2>
+    <sans-a class="example" href="https://example.com" style="color: #0277bd;">
+      Basic link to example.com
+    </sans-a>
+  </div>
+  
+  <div class="demo-section">
+    <h2>With Target and Rel Attributes</h2>
+    <sans-a 
+      class="example" 
+      href="https://example.com" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      style="color: #2e7d32; text-decoration: none; border-bottom: 1px dotted #2e7d32;"
+    >
+      Opens in new tab with security attributes
+    </sans-a>
+  </div>
+  
+  <div class="demo-section">
+    <h2>Download Link</h2>
+    <sans-a 
+      class="example" 
+      href="#" 
+      download="example-file.txt"
+      style="color: #d32f2f; font-weight: bold;"
+    >
+      Download example file
+    </sans-a>
+  </div>
+  
+  <div class="demo-section">
+    <h2>With Accessibility Attributes</h2>
+    <sans-a 
+      role="button"
+      aria-label="Learn more about our services"
+      href="#"
+      class="example"
+      style="display: inline-block; padding: 8px 16px; background-color: #0277bd; color: white; border-radius: 4px; text-decoration: none;"
+    >
+      Learn More
+    </sans-a>
+  </div>
+  
+  <script>
+    // Define the SansA web component
+    class SansA extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+      
+      static get observedAttributes() {
+        return ['id', 'class', 'style', 'href', 'target', 'rel', 'download', 'role', 'tabindex', 'aria-label', 'data-testid'];
+      }
+      
+      connectedCallback() {
+        this.render();
+        this.a = this.shadowRoot.querySelector('a');
+        this.a.addEventListener('click', (e) => {
+          // Dispatch a custom event
+          this.dispatchEvent(new CustomEvent('a-click', {
+            bubbles: true,
+            composed: true,
+            detail: { source: this }
+          }));
+        });
+      }
+      
+      attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue === newValue) return;
+        
+        if (this.shadowRoot) {
+          this.render();
+        }
+      }
+      
+      render() {
+        const id = this.getAttribute('id') || '';
+        const className = this.getAttribute('class') || '';
+        const style = this.getAttribute('style') || '';
+        const href = this.getAttribute('href') || '#';
+        const target = this.getAttribute('target') || '';
+        const rel = this.getAttribute('rel') || '';
+        const download = this.getAttribute('download') || '';
+        const role = this.getAttribute('role') || '';
+        const tabindex = this.getAttribute('tabindex') || '';
+        const ariaLabel = this.getAttribute('aria-label') || '';
+        const dataTestid = this.getAttribute('data-testid') || '';
+        
+        this.shadowRoot.innerHTML = `
+          <style>
+            :host {
+              display: inline;
+            }
+            
+            a {
+              color: #0066cc;
+              text-decoration: underline;
+              cursor: pointer;
+            }
+            
+            a:hover {
+              text-decoration: underline;
+            }
+            
+            a:visited {
+              color: #551a8b;
+            }
+          </style>
+          <a 
+            ${id ? `id="${id}"` : ''}
+            ${className ? `class="${className}"` : ''}
+            ${style ? `style="${style}"` : ''}
+            href="${href}"
+            ${target ? `target="${target}"` : ''}
+            ${rel ? `rel="${rel}"` : ''}
+            ${download ? `download="${download}"` : ''}
+            ${role ? `role="${role}"` : ''}
+            ${tabindex ? `tabindex="${tabindex}"` : ''}
+            ${ariaLabel ? `aria-label="${ariaLabel}"` : ''}
+            ${dataTestid ? `data-testid="${dataTestid}"` : ''}
+          >
+            <slot></slot>
+          </a>
+        `;
+      }
+    }
+
+    // Register the custom element
+    customElements.define('sans-a', SansA);
+  </script>
+</body>
+</html>

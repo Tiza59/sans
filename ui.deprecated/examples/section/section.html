@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans UI Section Example</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    
+    h1, h2, h3 {
+      color: #333;
+    }
+    
+    .demo-section {
+      margin: 20px 0;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #fff;
+    }
+    
+    pre {
+      background-color: #f0f0f0;
+      padding: 10px;
+      border-radius: 4px;
+      overflow: auto;
+    }
+    
+    code {
+      font-family: 'Courier New', Courier, monospace;
+    }
+    
+    /* Custom styles for demo */
+    .content-section {
+      padding: 20px;
+      margin: 10px 0;
+      border-radius: 8px;
+    }
+    
+    .light-theme {
+      background-color: #f8f9fa;
+      color: #212529;
+      border: 1px solid #dee2e6;
+    }
+    
+    .dark-theme {
+      background-color: #343a40;
+      color: #f8f9fa;
+      border: 1px solid #495057;
+    }
+    
+    .accent-theme {
+      background-color: #e9ecef;
+      color: #495057;
+      border-left: 4px solid #4a56e2;
+    }
+  </style>
+</head>
+<body>
+  <h1>
+    <img src="../../logo.svg" alt="Sans UI Logo" height="40" style="vertical-align: middle; margin-right: 10px;">
+    Sans UI Section Example
+  </h1>
+  <p>This example demonstrates how to use the Sans UI Section component in a plain HTML page.</p>
+  
+  <div class="demo-section">
+    <h2>Basic Section</h2>
+    <sans-section className="content-section light-theme">
+      <h3>Light Theme Section</h3>
+      <p>This is a basic Sans UI Section component with light theme styling.</p>
+    </sans-section>
+    
+    <pre><code>&lt;sans-section className="content-section light-theme"&gt;
+  &lt;h3&gt;Light Theme Section&lt;/h3&gt;
+  &lt;p&gt;This is a basic Sans UI Section component with light theme styling.&lt;/p&gt;
+&lt;/sans-section&gt;</code></pre>
+  </div>
+  
+  <div class="demo-section">
+    <h2>Section with Custom Attributes</h2>
+    <sans-section 
+      id="custom-section" 
+      className="content-section dark-theme" 
+      role="region" 
+      ariaLabel="Dark theme section"
+    >
+      <h3>Dark Theme Section</h3>
+      <p>This section has a custom ID, class, role, and aria-label.</p>
+    </sans-section>
+    
+    <pre><code>&lt;sans-section 
+  id="custom-section" 
+  className="content-section dark-theme" 
+  role="region" 
+  ariaLabel="Dark theme section"
+&gt;
+  &lt;h3&gt;Dark Theme Section&lt;/h3&gt;
+  &lt;p&gt;This section has a custom ID, class, role, and aria-label.&lt;/p&gt;
+&lt;/sans-section&gt;</code></pre>
+  </div>
+  
+  <div class="demo-section">
+    <h2>Nested Sections</h2>
+    <sans-section className="content-section light-theme">
+      <h3>Parent Section</h3>
+      <p>This is a parent section that contains a nested section.</p>
+      
+      <sans-section className="content-section accent-theme">
+        <h3>Nested Section</h3>
+        <p>This is a nested section with accent styling.</p>
+      </sans-section>
+    </sans-section>
+    
+    <pre><code>&lt;sans-section className="content-section light-theme"&gt;
+  &lt;h3&gt;Parent Section&lt;/h3&gt;
+  &lt;p&gt;This is a parent section that contains a nested section.&lt;/p&gt;
+  
+  &lt;sans-section className="content-section accent-theme"&gt;
+    &lt;h3&gt;Nested Section&lt;/h3&gt;
+    &lt;p&gt;This is a nested section with accent styling.&lt;/p&gt;
+  &lt;/sans-section&gt;
+&lt;/sans-section&gt;</code></pre>
+  </div>
+  
+  <div class="demo-section">
+    <h2>Event Handling</h2>
+    <sans-section className="content-section accent-theme" id="click-section" style="cursor: pointer;">
+      <h3>Interactive Section</h3>
+      <p>Click me to see an event in action.</p>
+    </sans-section>
+    <div id="output" style="margin-top: 10px; padding: 10px; background-color: #f0f0f0; border-radius: 4px;"></div>
+    
+    <pre><code>&lt;sans-section 
+  className="content-section accent-theme" 
+  id="click-section" 
+  style="cursor: pointer;"
+&gt;
+  &lt;h3&gt;Interactive Section&lt;/h3&gt;
+  &lt;p&gt;Click me to see an event in action.&lt;/p&gt;
+&lt;/sans-section&gt;
+
+&lt;script&gt;
+  const section = document.getElementById('click-section');
+  section.addEventListener('click', () => {
+    document.getElementById('output').textContent = 
+      'Section clicked at: ' + new Date().toLocaleTimeString();
+  });
+&lt;/script&gt;</code></pre>
+  </div>
+  
+  <!-- Import Sans UI components -->
+  <script type="module">
+    // Import the Sans UI components
+    import '../../src/components/html5/Section.js';
+    
+    // Add event listener for the click section
+    document.addEventListener('DOMContentLoaded', () => {
+      const section = document.getElementById('click-section');
+      section.addEventListener('click', () => {
+        document.getElementById('output').textContent = 'Section clicked at: ' + new Date().toLocaleTimeString();
+      });
+    });
+  </script>
+</body>
+</html>

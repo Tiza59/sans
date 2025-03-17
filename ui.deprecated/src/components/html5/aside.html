@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans Aside Web Component</title>
+  <style>
+    /* Default styles for the demo page */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1, h2 {
+      color: #333;
+    }
+    
+    .demo-section {
+      margin: 20px 0;
+      padding: 20px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+    }
+
+    .example {
+      margin: 10px 0;
+    }
+
+    .layout-example {
+      display: flex;
+      gap: 20px;
+    }
+
+    .main-content {
+      flex: 3;
+      padding: 15px;
+      background-color: #f5f5f5;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sans Aside Web Component</h1>
+  
+  <div class="demo-section">
+    <h2>Basic Usage</h2>
+    <sans-aside class="example" style="padding: 15px; background-color: #f5f5f5; border-radius: 4px;">
+      <h3>Related Information</h3>
+      <p>This is a basic aside component. Asides contain content that is tangentially related to the content around it.</p>
+    </sans-aside>
+  </div>
+  
+  <div class="demo-section">
+    <h2>Sidebar Layout Example</h2>
+    <div class="layout-example">
+      <div class="main-content">
+        <h3>Main Content</h3>
+        <p>This is the main content area of the page. It contains the primary information that the user is interested in.</p>
+        <p>The aside element is often used as a sidebar to provide additional context or related information.</p>
+      </div>
+      
+      <sans-aside style="flex: 1; padding: 15px; background-color: #e8f5e9; border-radius: 4px; border-left: 2px solid #4caf50;">
+        <h4>Did You Know?</h4>
+        <p>The aside element was introduced in HTML5 to provide semantic meaning to content that is related but separate from the main content.</p>
+        <h4>Related Links</h4>
+        <ul>
+          <li><a href="#">More about HTML5 semantics</a></li>
+          <li><a href="#">Web accessibility guidelines</a></li>
+        </ul>
+      </sans-aside>
+    </div>
+  </div>
+  
+  <div class="demo-section">
+    <h2>With Accessibility Attributes</h2>
+    <sans-aside 
+      role="complementary"
+      aria-label="Related information"
+      class="example"
+      style="padding: 15px; background-color: #fff8e1; border-radius: 4px; border-left: 4px solid #ffc107;"
+    >
+      <h3>Important Note</h3>
+      <p>This aside has accessibility attributes to improve screen reader experience.</p>
+      <p>The <code>role="complementary"</code> attribute helps screen readers understand that this content complements the main content.</p>
+    </sans-aside>
+  </div>
+  
+  <script>
+    // Define the SansAside web component
+    class SansAside extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+      
+      static get observedAttributes() {
+        return ['id', 'class', 'style', 'role', 'tabindex', 'aria-label', 'data-testid'];
+      }
+      
+      connectedCallback() {
+        this.render();
+        this.aside = this.shadowRoot.querySelector('aside');
+        this.aside.addEventListener('click', (e) => {
+          // Dispatch a custom event
+          this.dispatchEvent(new CustomEvent('aside-click', {
+            bubbles: true,
+            composed: true,
+            detail: { source: this }
+          }));
+        });
+      }
+      
+      attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue === newValue) return;
+        
+        if (this.shadowRoot) {
+          this.render();
+        }
+      }
+      
+      render() {
+        const id = this.getAttribute('id') || '';
+        const className = this.getAttribute('class') || '';
+        const style = this.getAttribute('style') || '';
+        const role = this.getAttribute('role') || '';
+        const tabindex = this.getAttribute('tabindex') || '';
+        const ariaLabel = this.getAttribute('aria-label') || '';
+        const dataTestid = this.getAttribute('data-testid') || '';
+        
+        this.shadowRoot.innerHTML = `
+          <style>
+            :host {
+              display: block;
+            }
+            
+            aside {
+              display: block;
+            }
+          </style>
+          <aside 
+            ${id ? `id="${id}"` : ''}
+            ${className ? `class="${className}"` : ''}
+            ${style ? `style="${style}"` : ''}
+            ${role ? `role="${role}"` : ''}
+            ${tabindex ? `tabindex="${tabindex}"` : ''}
+            ${ariaLabel ? `aria-label="${ariaLabel}"` : ''}
+            ${dataTestid ? `data-testid="${dataTestid}"` : ''}
+          >
+            <slot></slot>
+          </aside>
+        `;
+      }
+    }
+
+    // Register the custom element
+    customElements.define('sans-aside', SansAside);
+  </script>
+</body>
+</html>

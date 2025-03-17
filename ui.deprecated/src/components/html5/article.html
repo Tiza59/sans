@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans Article Web Component</title>
+  <style>
+    /* Default styles for the demo page */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1, h2 {
+      color: #333;
+    }
+    
+    .demo-section {
+      margin: 20px 0;
+      padding: 20px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+    }
+
+    .example {
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sans Article Web Component</h1>
+  
+  <div class="demo-section">
+    <h2>Basic Usage</h2>
+    <sans-article class="example" style="padding: 20px; background-color: #f5f5f5; border-radius: 4px;">
+      <h3>Article Title</h3>
+      <p>This is a basic article component. Articles represent self-contained compositions that could be distributed and reused independently.</p>
+      <p>Examples include: a forum post, a magazine or newspaper article, a blog entry, a product card, etc.</p>
+    </sans-article>
+  </div>
+  
+  <div class="demo-section">
+    <h2>Blog Post Example</h2>
+    <sans-article class="example" style="padding: 20px; background-color: #e8f5e9; border-radius: 4px; border: 1px solid #c8e6c9;">
+      <header>
+        <h3>Understanding HTML5 Semantic Elements</h3>
+        <p><small>Posted on March 14, 2025 by Author</small></p>
+      </header>
+      
+      <p>Semantic HTML elements clearly describe their meaning to both the browser and the developer.</p>
+      <p>Using semantic HTML5 elements like <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;header&gt;</code>, and <code>&lt;footer&gt;</code> improves accessibility and SEO.</p>
+      
+      <footer>
+        <p><small>Tags: HTML5, Semantics, Web Development</small></p>
+      </footer>
+    </sans-article>
+  </div>
+  
+  <div class="demo-section">
+    <h2>With Accessibility Attributes</h2>
+    <sans-article 
+      role="article"
+      aria-label="Featured article about web components"
+      class="example"
+      style="padding: 20px; background-color: #e3f2fd; border-radius: 4px; border-left: 4px solid #2196f3;"
+    >
+      <h3>Web Components: The Future of Reusable UI</h3>
+      <p>This article has accessibility attributes to improve screen reader experience.</p>
+      <p>Web components provide a standard way to create reusable custom elements with encapsulated functionality.</p>
+    </sans-article>
+  </div>
+  
+  <script>
+    // Define the SansArticle web component
+    class SansArticle extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+      
+      static get observedAttributes() {
+        return ['id', 'class', 'style', 'role', 'tabindex', 'aria-label', 'data-testid'];
+      }
+      
+      connectedCallback() {
+        this.render();
+        this.article = this.shadowRoot.querySelector('article');
+        this.article.addEventListener('click', (e) => {
+          // Dispatch a custom event
+          this.dispatchEvent(new CustomEvent('article-click', {
+            bubbles: true,
+            composed: true,
+            detail: { source: this }
+          }));
+        });
+      }
+      
+      attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue === newValue) return;
+        
+        if (this.shadowRoot) {
+          this.render();
+        }
+      }
+      
+      render() {
+        const id = this.getAttribute('id') || '';
+        const className = this.getAttribute('class') || '';
+        const style = this.getAttribute('style') || '';
+        const role = this.getAttribute('role') || '';
+        const tabindex = this.getAttribute('tabindex') || '';
+        const ariaLabel = this.getAttribute('aria-label') || '';
+        const dataTestid = this.getAttribute('data-testid') || '';
+        
+        this.shadowRoot.innerHTML = `
+          <style>
+            :host {
+              display: block;
+            }
+            
+            article {
+              display: block;
+            }
+          </style>
+          <article 
+            ${id ? `id="${id}"` : ''}
+            ${className ? `class="${className}"` : ''}
+            ${style ? `style="${style}"` : ''}
+            ${role ? `role="${role}"` : ''}
+            ${tabindex ? `tabindex="${tabindex}"` : ''}
+            ${ariaLabel ? `aria-label="${ariaLabel}"` : ''}
+            ${dataTestid ? `data-testid="${dataTestid}"` : ''}
+          >
+            <slot></slot>
+          </article>
+        `;
+      }
+    }
+
+    // Register the custom element
+    customElements.define('sans-article', SansArticle);
+  </script>
+</body>
+</html>
