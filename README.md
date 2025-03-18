@@ -1,7 +1,7 @@
 <p align="center">
-  <a href="./ui"><img src="ui/static/logos/ui/logo.sans-ui.white.svg" alt="Sans UI Logo" height="60" style="margin: 2.2rem;" /></a>
-  <a href="./api"><img src="ui/static/logos/api/logo.sans-api.white.svg" alt="Sans API Logo" height="60" style="margin: 2.2rem;" /></a>
-  <a href="./db"><img src="ui/static/logos/db/logo.sans-db.white.svg" alt="Sans DB Logo" height="60" style="margin: 2.2rem;" /></a>
+  <img src="https://raw.githubusercontent.com/profullstack/sans/refs/heads/master/packages/ui/static/logos/ui/logo.sans-ui.white.svg" alt="Sans UI Logo" height="60" style="margin: 2.2rem;" />
+  <img src="https://raw.githubusercontent.com/profullstack/sans/refs/heads/master/packages/ui/static/logos/api/logo.sans-api.white.svg" alt="Sans API Logo" height="60" style="margin: 2.2rem;" />
+  <img src="https://raw.githubusercontent.com/profullstack/sans/refs/heads/master/packages/ui/static/logos/db/logo.sans-db.white.svg" alt="Sans DB Logo" height="60" style="margin: 2.2rem;" />
 </p>
 
 # Sans Project
@@ -44,15 +44,15 @@ A cross-platform native application framework with UI, API, and DB components.
 
 ## Components
 
-### [Sans UI](./ui/README.md)
+### [Sans UI](./packages/ui/README.md)
 
 A cross-platform native UI library which supports iOS, Android, Windows, macOS and Linux. Built with Svelte 4 and web components.
 
-### [Sans API](./api/README.md)
+### [Sans API](./packages/api/README.md)
 
 Coming soon - A lightweight API framework for building backend services.
 
-### [Sans DB](./db/README.md)
+### [Sans DB](./packages/db/README.md)
 
 Coming soon - A database abstraction layer for working with various database systems.
 
